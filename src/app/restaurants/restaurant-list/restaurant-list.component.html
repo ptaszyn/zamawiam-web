@@ -1,0 +1,14 @@
+<div *ngFor="let restaurant of restaurants" class="card">
+  <div class="container">
+    <h2>{{restaurant.name}}</h2>
+    <p>{{restaurant.description}}</p>
+    <p>{{restaurant.requirement}}</p>
+    <p routerLink="/restaurants/{{restaurant.id}}"><button>Szczegóły</button></p>
+  </div>
+</div>
+<div class="container">
+  <div>
+    <button ><i class="fas fa-plus"></i> Dodaj</button>
+  </div>
+  <input>
+</div>

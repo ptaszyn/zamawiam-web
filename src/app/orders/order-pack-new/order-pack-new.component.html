@@ -1,0 +1,86 @@
+<form id="regForm" action="/action_page.php">
+  <h1>Tworzymy formularz zamówienia:</h1>
+  <!-- One "tab" for each step in the form: -->
+
+  <div class="tab" [style.display]="styleDisplay(0)">
+    <h3>Restauracja:</h3>
+    <div class="clearfix">
+      <div class="splitleft">
+        <div class="vertical-menu">
+          <a *ngFor="let rest of restaurants" [ngClass]="{'active': rest===restaurant}" href="javascript:void(0);"
+            (click)="setRestaurant(rest)">{{rest.name ? rest.name : 'Dodaj nową...'}}</a>
+        </div>
+      </div>
+      <div class="splitright">
+        <p><input [(ngModel)]="restaurant.name" name="name" placeholder="Nazwa..." [ngClass]="{'invalid': !vName}"></p>
+        <p><input [(ngModel)]="restaurant.url" name="url" type="url" placeholder="WWW..."></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab" [style.display]="styleDisplay(1)">
+    <h3>Źródło menu:</h3>
+    <div style="width:100%">
+      <button [ngClass]="{'active': orderPack.menuSource===1}" (click)="orderPack.menuSource=1" style="width:33.3%">Baza</button>
+      <button [ngClass]="{'active': orderPack.menuSource===2}" (click)="orderPack.menuSource=2" style="width:33.3%">Strona WWW</button>
+      <button [ngClass]="{'active': orderPack.menuSource===3}" (click)="orderPack.menuSource=3" style="width:33.3%">Dodaje teraz</button>
+    </div>
+    <hr>
+    <div *ngIf="orderPack.menuSource===2">
+      <p><input [(ngModel)]="restaurant.url" name="url" type="url" placeholder="WWW..." [ngClass]="{'invalid': !vUrl}"></p>
+    </div>
+    <div *ngIf="orderPack.menuSource===3" class="clearfix">
+      <div class="splitleft">
+        <button class="btn-add" (click)="addOrderMenu()">Dodaj</button>
+        <div *ngIf="orderMenus?.length > 0" class="vertical-menu">
+          <div *ngFor="let menu of orderMenus">
+            <a (click)="setFormOrderMenu(menu)">{{menu.name}}</a><span (click)="removeOrderMenu(menu)" class="close">x</span>
+          </div>
+        </div>
+      </div>
+      <div class="splitright">
+        <p><input [(ngModel)]="formOrderMenu.name" name="name" placeholder="Nazwa..." [readonly]="!(orderMenus?.length > 0)"
+            [ngClass]="{'invalid': !vMenu}"></p>
+        <p><input [(ngModel)]="formOrderMenu.comment" name="comment" placeholder="Opis..." [readonly]="!(orderMenus?.length > 0)"></p>
+        <p><input [(ngModel)]="formOrderMenu.price" name="price" placeholder="Cena..." [readonly]="!(orderMenus?.length > 0)"
+            [ngClass]="{'invalid': !vPrice}"></p>
+      </div>
+    </div>
+  </div>
+  <!--
+  <div class="tab" [style.display]="styleDisplay(2)">Użytkownicy:
+    <p><input placeholder="dd" oninput="this.className = ''" name="dd"></p>
+    <p><input placeholder="mm" oninput="this.className = ''" name="nn"></p>
+    <p><input placeholder="yyyy" oninput="this.className = ''" name="yyyy"></p>
+  </div>
+-->
+  <div class="tab" [style.display]="styleDisplay(2)">
+    <h3>Podsumowanie:</h3>
+    <p>Wybrana restauracja: <b>{{restaurant.name}}</b></p>
+    <p [ngSwitch]="orderPack.menuSource">Źródło menu:
+      <b *ngSwitchCase="1"> z bazy aplikacji</b>
+      <b *ngSwitchCase="2"> na {{restaurant.url}}</b>
+      <b *ngSwitchCase="3"> dodane teraz (ilość: {{orderMenus?.length}})</b>
+    </p>
+    <p>Komentarz widoczny dla zamawiających:</p>
+    <textarea rows="4" cols="50" [(ngModel)]="orderPack.comment" name="comment"></textarea>
+  </div>
+
+  <!-- Form buttons: -->
+  <div style="overflow:auto;">
+    <div style="float:right;">
+      <button *ngIf="currentTab>0" type="button" id="prevBtn" (click)="nextPrev(-1)">&laquo; Cofnij</button>
+      <button *ngIf="!(currentTab==2)" type="button" id="nextBtn" (click)="nextPrev(1)">Dalej &raquo;</button>
+      <button *ngIf="currentTab==2" type="button" id="nextBtn" (click)="startOrderPack()">Otwórz zamówienie</button>
+    </div>
+  </div>
+
+  <!-- Circles which indicates the steps of the form: -->
+  <div style="text-align:center;margin-top:40px;">
+    <span [className]="stepName(0)"></span>
+    <span [className]="stepName(1)"></span>
+    <span [className]="stepName(2)"></span>
+    <!--<span [className]="stepName(3)"></span>-->
+  </div>
+
+</form>
