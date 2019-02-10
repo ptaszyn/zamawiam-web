@@ -1,7 +1,53 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-const routes: Routes = [];
+import { HomeComponent } from './core/home/home.component';
+import { OrderPackNewComponent } from './orders/order-pack-new/order-pack-new.component';
+import { OrderPackDetailComponent } from './orders/order-pack-detail/order-pack-detail.component';
+
+const routes: Routes = [
+  {
+    path: 'home',
+    component: HomeComponent
+  },
+  {
+    path: 'restaurants',
+    loadChildren: './restaurants/restaurants.module#RestaurantsModule'
+  },
+  {
+    path: 'orderpacks/new',
+    component: OrderPackNewComponent
+  },
+  {
+    path: 'orderpacks/:id',
+    component: OrderPackDetailComponent
+  },/*
+  {
+    path: 'restaurants/:id',
+    component: RestaurantComponent
+  },
+  {
+    path: 'restaurants/:id/menu',
+    component: MenuComponent
+  },
+  {
+    path: 'orderpacks/new',
+    component: OrderPackCreateComponent
+  },
+  {
+    path: 'orderpacks/new/:restaurantId',
+    component: OrderPackCreateComponent
+  },
+  {
+    path: 'restaurants/new',
+    component: RestaurantCreateComponent
+  },*/
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

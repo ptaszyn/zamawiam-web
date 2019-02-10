@@ -1,0 +1,156 @@
+<div class="container cover-heading">
+  <h2>Menu</h2>
+  <hr class="mb-4">
+  <!-- FoodGroups -->
+  <div *ngFor="let foodGroup of foodGroups">
+    <div class="shadow p-3 mb-5 bg-white rounded">
+      <app-food-group [foodGroup]="foodGroup"></app-food-group>
+      <!-- FoodItems -->
+      <table *ngIf="foodGroup.id" class="table table-striped">
+        <tbody>
+          <tr *ngFor="let foodItem of foodGroup.foodItems">
+            <td *ngIf="foodItem.id">{{foodItem.name}}</td>
+            <td *ngIf="foodItem.id">{{foodItem.description}}</td>
+            <td *ngIf="foodItem.id">{{foodItem.price}}</td>
+            <td *ngIf="foodItem.id">
+              <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" [attr.data-target]="'#fi'+ foodItem.id">
+                <i class="far fa-edit"></i>
+              </button>
+            </td>
+            <!-- FoodItem - Modal -->
+            <div class="modal fade" id="fi{{foodItem.id}}" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="itemModalLabel">{{foodItem.name}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="needs-validation" novalidate>
+                      <div class="mb-3">
+                        <label for="name">Nazwa</label>
+                        <input [(ngModel)]="foodItem.name" name="name" type="text" class="form-control" id="name"
+                          placeholder="Name" required>
+                        <div class="invalid-feedback">
+                          Nazwa jest wymagana.
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="description">Opis</label>
+                        <input [(ngModel)]="foodItem.description" name="description" type="text" class="form-control"
+                          id="description" placeholder="Opis dania" required>
+                        <div class="invalid-feedback">
+                          Wprowadź opis dania.
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-5 mb-3">
+                          <label for="price">Cena</label>
+                          <div class="input-group">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">$</span>
+                            </div>
+                            <input [(ngModel)]="foodItem.price" name="price" type="number" class="form-control" id="price"
+                              placeholder="12.89" required>
+                            <div class="invalid-feedback">
+                              Wprowadź cenę produktu.
+                            </div>
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">0.00</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <hr class="mb-4">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input [(ngModel)]="foodItem.enabled" name="enabled" class="form-check-input" type="checkbox"
+                            value="" id="enabled">
+                          <label class="form-check-label" for="enabled">
+                            Danie niedostępne
+                          </label>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+                    <button *ngIf="foodItem.id" type="button" class="btn btn-primary" (click)="putFoodItem(foodItem, foodGroup);"
+                      data-dismiss="modal">Zapisz zmiany</button>
+                    <button *ngIf="!foodItem.id" type="button" class="btn btn-primary" (click)="addFoodItem(foodItem, foodGroup);"
+                      data-dismiss="modal">Dodaj do bazy</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- FoodItemModal-End -->
+          </tr>
+          <!-- ModalNewItem 
+          <div class="modal fade" id="newFoodItem" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="itemModalLabel">Dodaj nową pozycję w menu</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="needs-validation" novalidate>
+                    <div class="mb-3">
+                      <label for="name">Nazwa</label>
+                      <input [(ngModel)]="newFoodItem.name" name="name" type="text" class="form-control" id="name"
+                        placeholder="Name" required>
+                      <div class="invalid-feedback">
+                        Nazwa jest wymagana.
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                      <label for="description">Opis</label>
+                      <input [(ngModel)]="newFoodItem.description" name="description" type="text" class="form-control"
+                        id="description" placeholder="Opis dania" required>
+                      <div class="invalid-feedback">
+                        Wprowadź opis dania.
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-5 mb-3">
+                        <label for="price">Cena</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                          </div>
+                          <input [(ngModel)]="newFoodItem.price" name="price" type="number" class="form-control" id="price"
+                            placeholder="12.89" required>
+                          <div class="invalid-feedback">
+                            Wprowadź cenę produktu.
+                          </div>
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">0.00</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+                  <button type="button" class="btn btn-primary" (click)="addFoodItem(newFoodItem, foodGroup);"
+                    data-dismiss="modal">Dodaj</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ModalNewItem-End -->
+        </tbody>
+      </table>
+      <!-- FoodItem-End -->
+    </div>
+  </div>
+  <!-- FoodGroup-End -->  
+  <app-food-group [foodGroup]="newFoodGroup"></app-food-group>
+</div>
