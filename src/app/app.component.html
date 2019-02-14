@@ -7,7 +7,7 @@
 
   <div *ngIf="user()" class="navbar-right">
     <a href="#"><i class="fa fa-fw fa-user"></i> {{user()}}</a>
-    <a href="javascript:void(0)"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
+    <a href="javascript:void(0)" (click)="signOut()"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
   </div>
 
   <div *ngIf="!user()" class="navbar-right">

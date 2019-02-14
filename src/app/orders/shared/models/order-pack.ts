@@ -7,5 +7,5 @@ export class OrderPack {
     comment: string;
     menuSource: number;
     orderStatusId: number;
-    orderMenu: OrderMenu[];
+    orderMenus: OrderMenu[];
 }

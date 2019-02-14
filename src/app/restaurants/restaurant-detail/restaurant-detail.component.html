@@ -1,20 +1,52 @@
 <div class="container">
   <form action="/action_page.php">
     <div class="row">
+      <h1>{{restaurant.name}}</h1>
+
       <div class="col-25">
-        <label for="fname">Nazwa</label>
+        <label for="name">Nazwa</label>
       </div>
       <div class="col-75">
-        <input [(ngModel)]="restaurant.name" type="text" id="fname" name="name" placeholder="Your name..">
+        <input [(ngModel)]="restaurant.name" name="name" type="text" id="name" placeholder="Nazwa restauracji..">
+      </div>
+
+      <div class="col-25">
+        <label for="url">WWW</label>
+      </div>
+      <div class="col-75">
+        <input [(ngModel)]="restaurant.url" type="text" id="url" name="url" placeholder="WWW..">
+      </div>
+
+      <div class="col-25">
+        <label for="contact">Kontakt</label>
+      </div>
+      <div class="col-75">
+        <input [(ngModel)]="restaurant.contact" type="text" id="contact" name="contact" placeholder="Kontakt..">
+      </div>
+
+      <div class="col-25">
+        <label for="description">Opis</label>
+      </div>
+      <div class="col-75">
+        <input [(ngModel)]="restaurant.description" type="text" id="description" name="description" placeholder="Opis restauracji..">
+      </div>
+
+      <div class="col-25">
+        <label for="requirement">Wymagania do zamówienia</label>
+      </div>
+      <div class="col-75">
+        <input [(ngModel)]="restaurant.requirement" type="text" id="requirement" name="requirement" placeholder="Wymagania zamówienia..">
       </div>
     </div>
-
-    <div class="row">
-      <input type="submit" value="Submit">
+    <hr>
+    <div class="clearfix">
+      <button class="cancelbtn" (click)="back()">Anuluj</button>
+      <button class="menubtn" routerLink="/restaurants/{{restaurant.id}}/menu">Menu</button>
+      <button class="savebtn" (click)="onSubmit()">Zapisz</button>
     </div>
   </form>
 </div>
-
+<!--
 <div *ngIf="restaurant" class="container">
   <h4 class="mb-3">{{restaurant.name}}</h4>
   <button class="btn btn-secondary" routerLink="/restaurants/{{restaurant.id}}/menu">Menu</button>
@@ -60,3 +92,4 @@
     <button class="btn btn-primary btn-lg btn-block" type="submit">Zapisz zmiany</button>
   </form>
 </div>
+-->

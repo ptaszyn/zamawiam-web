@@ -32,6 +32,10 @@ export class AppComponent implements OnInit {
     }
     return null;
   }
+ 
+  signOut() {
+    window.sessionStorage.clear();
+  }
 
   myTopnavClick(): void {
     var x = document.getElementById("myTopnav");

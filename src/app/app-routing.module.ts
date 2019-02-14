@@ -23,14 +23,6 @@ const routes: Routes = [
     component: OrderPackDetailComponent
   },/*
   {
-    path: 'restaurants/:id',
-    component: RestaurantComponent
-  },
-  {
-    path: 'restaurants/:id/menu',
-    component: MenuComponent
-  },
-  {
     path: 'orderpacks/new',
     component: OrderPackCreateComponent
   },

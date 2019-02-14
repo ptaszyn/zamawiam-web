@@ -36,7 +36,7 @@
   float: right;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .navbar a:not(:first-child) {display: none;}  
   .navbar-right a {display: none;}  
   .navbar a.icon {
@@ -45,7 +45,7 @@
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .navbar.responsive {position: relative;}
   .navbar.responsive .icon {
     position: absolute;

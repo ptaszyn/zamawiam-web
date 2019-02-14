@@ -9,6 +9,7 @@ import { of } from 'rxjs'
 import { Observable } from 'rxjs';
 import { restoreView } from '@angular/core/src/render3';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-pack-new',
@@ -33,7 +34,11 @@ export class OrderPackNewComponent implements OnInit {
   vMenu = true;
   vPrice = true;
 
-  constructor(private restaurantService: RestaurantService, private orderPackService: OrderPackService) { }
+  constructor(
+    private restaurantService: RestaurantService,
+    private orderPackService: OrderPackService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.setNewRestaurant();
@@ -80,7 +85,7 @@ export class OrderPackNewComponent implements OnInit {
   async addRestaurant() {
     const restaurant = await this.restaurantService.addRestaurant(this.restaurant).toPromise();
     return restaurant;
- }
+  }
 
   // Menu
 
@@ -128,10 +133,12 @@ export class OrderPackNewComponent implements OnInit {
   // Order pack
 
   async startOrderPack() {
-    if(!this.restaurant.id) this.restaurant = await this.addRestaurant();
+    if (!this.restaurant.id) this.restaurant = await this.addRestaurant();
     this.orderPack.restaurantId = this.restaurant.id;
+    if (this.orderMenus) this.orderPack.orderMenus = this.orderMenus;
     this.orderPackService.addOrderPack(this.orderPack).subscribe(orderPack => {
       this.orderPack = orderPack;
+      this.router.navigate(['/orderpacks', orderPack['id']]);
     }, (err) => { console.log(err); });
   }
 

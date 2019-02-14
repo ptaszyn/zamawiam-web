@@ -12,7 +12,7 @@ import { RestaurantService } from '../shared/services/restaurant.service';
 })
 export class RestaurantDetailComponent implements OnInit {
 
-  @Input() restaurant: Restaurant;
+  @Input() restaurant: Restaurant = new Restaurant();;
 
   constructor(
     private route: ActivatedRoute,
