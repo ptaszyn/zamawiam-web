@@ -20,20 +20,24 @@ export class OrderHeadService {
   constructor(private http: HttpClient) { }
 
   getOrderHeads(idPack: number): Observable<OrderHead[]> {
-    return this.http.get<OrderHead[]>(this.orderHeadsUrl.replace('idOrderPack',idPack.toString()), this.options);
+    return this.http.get<OrderHead[]>(this.getPackUrl(idPack), this.options);
   }
 
   getOrderHead(idPack: number, id: number): Observable<OrderHead> {
-    const url = `${this.orderHeadsUrl.replace('idOrderPack',idPack.toString())}/${id}`;
+    const url = `${this.getPackUrl(idPack)}/${id}`;
     return this.http.get<OrderHead>(url);
   }
 
   addOrderHead(idPack: number, orderHead: OrderHead): Observable<OrderHead> {
-    return this.http.post<OrderHead>(this.orderHeadsUrl.replace('idOrderPack',idPack.toString()), orderHead);
+    return this.http.post<OrderHead>(this.getPackUrl(idPack), orderHead);
   }
 
   putOrderHead(idPack: number, orderHead: OrderHead): Observable<OrderHead> {
-    const url = `${this.orderHeadsUrl.replace('idOrderPack',idPack.toString())}/${orderHead.id}`;
+    const url = `${this.getPackUrl(idPack)}/${orderHead.id}`;
     return this.http.put<OrderHead>(url, orderHead);
+  }
+
+  getPackUrl(idPack: number): string {
+    return this.orderHeadsUrl.replace('idOrderPack',idPack.toString());
   }
 }

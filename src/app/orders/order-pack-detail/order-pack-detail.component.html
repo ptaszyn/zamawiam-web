@@ -1,27 +1,144 @@
 <div class="container">
-  <h1>Zamówienie z {{orderPack.restaurantName}} w statusie {{orderPack.orderStatusName}}</h1>
+  <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
+  <ul class="progressbar">
+    <li class="active">Otwarte</li>
+    <li>Zamknięte</li>
+    <li>Zamówione</li>
+    <li>Dostarczone</li>
+    <li>Opłacone</li>
+  </ul>
   <div class="row">
-    
-    <div class="col-75">
+
+    <div class="col-70">
+      <div class="contain-card">
+        <h3>damian.ptaszynski@sodexo.com</h3>
+        <p>Chicken Tikka Masala + ryż</p>
+        <label><input type="checkbox"> Zapłacone</label>
+      </div>
+      <div class="contain-card">
+        <h3>krzysiu.krawczynski@sodexo.com</h3>
+        <p>Kadai Vegetable + chlebek</p>
+        <label><input type="checkbox"> Zapłacone</label>
+      </div>
+    </div>
+
+    <div class="col-30">
+      <div class="contain">
+        <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+        <table>
+          <tr>
+            <td><a href="#">Butter Chicken</a></td>
+            <td>1</td>
+            <td><span class="price"> $15</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">Chicken Tikka Masala</a></td>
+            <td>1</td>
+            <td><span class="price"> $5</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">Chicken Palak</a></td>
+            <td>1</td>
+            <td><span class="price"> $8</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">Kadai Vegetable</a></td>
+            <td>1</td>
+            <td><span class="price"> $2</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">+ ryż</a></td>
+            <td>2</td>
+            <td><span class="price"> $2</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">+ chlebek</a></td>
+            <td>2</td>
+            <td><span class="price"> $2</span></td>
+          </tr>
+        </table>
+        <hr>
+        <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
+        <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container">
+  <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
+  <ul class="progressbar">
+    <li class="active">Otwarte</li>
+    <li>Zamknięte</li>
+    <li>Zamówione</li>
+    <li>Dostarczone</li>
+    <li>Opłacone</li>
+  </ul>
+
+  <div class="row">
+
+    <div class="col-70">
       <div class="card">
         <div class="card-content">
-          <p><span>Chris Fox.</span> CEO at Mighty Schools.</p>
-          <p>John Doe saved us from a web disaster.</p>
+          <h3>damian.ptaszynski@sodexo.com</h3>
+          <p>Chicken Tikka Masala + ryż</p>
+          <label><input type="checkbox"> Zapłacone</label>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <h3>krzysiu.krawczynski@sodexo.com</h3>
+          <p>Kadai Vegetable + chlebek</p>
+          <label><input type="checkbox"> Zapłacone</label>
         </div>
       </div>
     </div>
 
-    <div class="col-25">
-        <div class="contain">
-            <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
-            <p><a href="#">Product 1</a> <span class="price">$15</span></p>
-            <p><a href="#">Product 2</a> <span class="price">$5</span></p>
-            <p><a href="#">Product 3</a> <span class="price">$8</span></p>
-            <p><a href="#">Product 4</a> <span class="price">$2</span></p>
-            <hr>
-            <p>Total <span class="price" style="color:black"><b>$30</b></span></p>
-          </div>
+    <div class="col-30">
+      <div class="card">
+        <div class="card-content">
+          <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+          <table>
+            <tr>
+              <td><a href="#">Butter Chicken</a></td>
+              <td>1</td>
+              <td><span class="price"> $15</span></td>
+            </tr>
+            <tr>
+              <td><a href="#">Chicken Tikka Masala</a></td>
+              <td>1</td>
+              <td><span class="price"> $5</span></td>
+            </tr>
+            <tr>
+              <td><a href="#">Chicken Palak</a></td>
+              <td>1</td>
+              <td><span class="price"> $8</span></td>
+            </tr>
+            <tr>
+              <td><a href="#">Kadai Vegetable</a></td>
+              <td>1</td>
+              <td><span class="price"> $2</span></td>
+            </tr>
+            <tr>
+              <td><a href="#">+ ryż</a></td>
+              <td>2</td>
+              <td><span class="price"> $2</span></td>
+            </tr>
+            <tr>
+              <td><a href="#">+ chlebek</a></td>
+              <td>2</td>
+              <td><span class="price"> $2</span></td>
+            </tr>
+          </table>
+          <hr>
+          <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
+          <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
+        </div>
+      </div>
     </div>
 
   </div>
+
 </div>

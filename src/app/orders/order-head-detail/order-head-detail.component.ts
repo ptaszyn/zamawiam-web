@@ -25,11 +25,14 @@ export class OrderHeadDetailComponent implements OnInit {
   }
 
   getOrderHead(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.orderHeadService.getOrderHead(this.idPack, id).subscribe(orderHead => this.orderHead = orderHead);
+    let idHead = this.route.snapshot.paramMap.get('id');
+    if (idHead) {
+      const id = +idHead;
+      this.orderHeadService.getOrderHead(this.idPack, id).subscribe(orderHead => this.orderHead = orderHead);
+    }
   }
 
-  onSubmit(){
+  onSubmit() {
     this.orderHeadService.putOrderHead(this.idPack, this.orderHead).subscribe();
   }
 
