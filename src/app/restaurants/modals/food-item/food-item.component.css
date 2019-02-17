@@ -13,7 +13,7 @@ input[type=text]{
 }
 
 /* Add a background color when the inputs get focus */
-input:focus {
+input[type=text]:focus{
   background-color: #ddd;
   outline: none;
 }

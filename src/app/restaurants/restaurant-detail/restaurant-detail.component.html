@@ -39,6 +39,11 @@
       </div>
     </div>
     <hr>
+    <label>
+      <input type="checkbox" [(ngModel)]="restaurant.enabled" name="enabled" class="custom-control-input" id="enabled">
+      Restauracja nieczynna / niedostępna
+    </label>
+    <hr>
     <div class="clearfix">
       <button class="cancelbtn" (click)="back()">Anuluj</button>
       <button class="menubtn" routerLink="/restaurants/{{restaurant.id}}/menu">Menu</button>

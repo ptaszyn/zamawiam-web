@@ -15,7 +15,7 @@ export class RestaurantMenuComponent implements OnInit {
   restaurantId: number;
   foodGroups: FoodGroup[];
   newFoodGroup: FoodGroup;
-  newFoodItem: FoodItem = new FoodItem();
+  newFoodItem: FoodItem;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,10 +24,11 @@ export class RestaurantMenuComponent implements OnInit {
 
   ngOnInit() {
     this.restaurantId = +this.route.snapshot.paramMap.get('id');
-    this.newFoodGroup =  new FoodGroup(this.restaurantId);
+    this.newFoodGroup = new FoodGroup(this.restaurantId);
+    this.newFoodItem = new FoodItem();
     this.getFoodGroups();
   }
-  
+
   // FoodGroup
 
   getFoodGroups(): void {
@@ -36,22 +37,13 @@ export class RestaurantMenuComponent implements OnInit {
     });
   }
 
-  // FoodItem
+  // Display functions
 
-  addFoodItem(foodItem: FoodItem, foodGroup: FoodGroup): void {
-    foodItem.foodGroupId = foodGroup.id;
-    this.restaurantService.addFoodItem(foodItem, foodGroup)
-      .subscribe(foodItem => {
-        foodGroup.foodItems = foodGroup.foodItems || [];
-      });
-  }
-
-  putFoodItem(foodItem: FoodItem, foodGroup: FoodGroup): void {
-    let index = foodGroup.foodItems.indexOf(foodItem);
-    this.restaurantService.putFoodItem(foodItem, foodGroup)
-      .subscribe(foodItem => {
-        foodGroup.foodItems[index] = foodItem;
-      });
+  blockModal(idGroup: string, type: string, idModal: string): void {
+    idGroup ? idGroup : idGroup = '';
+    type ? type : type = '';
+    idModal ? idModal : idModal = '';
+    document.getElementById('fg'.concat(idGroup, type, idModal)).style.display = 'block';
   }
 
 }

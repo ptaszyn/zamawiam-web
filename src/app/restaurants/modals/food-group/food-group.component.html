@@ -1,12 +1,12 @@
-<!-- FoodGroup - Header-->
-<h4 *ngIf="foodGroup.id">{{foodGroup.name}}
-  <button class="btn btn-light" data-toggle="modal" [attr.data-target]="'#fg'+ foodGroup.id">edytuj</button>
-</h4>
+<!-- FoodGroup - Header 
+<h3 *ngIf="foodGroup.id">{{foodGroup.name}}
+  <button class="btn" data-toggle="modal" [attr.data-target]="'#fg'+ foodGroup.id"><i class="far fa-edit"></i></button>
+</h3>
 <div *ngIf="!foodGroup.id">
-  <button class="btn btn-secondary" data-toggle="modal" [attr.data-target]="'#fg'">Dodaj nową
-    grupę</button>
+  <p><button class="btn-add" data-toggle="modal" [attr.data-target]="'#fg'"><i class="fas fa-plus"></i> Dodaj nową grupę</button></p>
 </div>
-<!-- FoodGroup - Modal -->
+<!-- FoodGroup - Header-End -->
+<!-- FoodGroup - Modal 
 <div class="modal fade" id="fg{{foodGroup.id}}" tabindex="-1" role="dialog" aria-labelledby="sideModalLabel"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -40,3 +40,33 @@
   </div>
 </div>
 <!-- FoodGroupModal-End -->
+
+<div id="fg{{foodGroup.id}}" class="modal">
+  <span (click)="noneModalFg(foodGroup.id);" class="close" title="Close Modal">&times;</span>
+  <form class="modal-content" action="/action_page.php">
+    <div class="container">
+      <h3>{{foodGroup.name}}</h3>
+      <hr>
+      <label for="name"><b>Nazwa</b></label>
+      <input [(ngModel)]="foodGroup.name" name="name" type="text" placeholder="Nazwa" class="form-control" required>
+      <label>
+        <input type="checkbox" [(ngModel)]="foodGroup.isMain" name="isMain" class="custom-control-input" id="isMain">
+        Grupa z daniami
+      </label>
+      <div *ngIf="foodGroup.isMain">
+        <br>
+        <label>Wskaż grupy dodatków do dań:</label>
+        <br>
+        <label *ngFor="let side of sideFoodGroups">
+          <input type="checkbox" [(ngModel)]="side.isMain" name="sideisMain" class="custom-control-input" id="sideisMain">
+          {{side.name}}
+        </label>
+      </div>
+      <div class="clearfix">
+        <button (click)="noneModalFg(foodGroup.id);" class="cancelbtn">Anuluj</button>
+        <button *ngIf="foodGroup.id" class="signupbtn" (click)="putFoodGroup(foodGroup); noneModalFg(foodGroup.id);">Zapisz</button>
+        <button *ngIf="!foodGroup.id" class="signupbtn" (click)="addFoodGroup(foodGroup); noneModalFg(foodGroup.id);">Dodaj</button>
+      </div>
+    </div>
+  </form>
+</div>

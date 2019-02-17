@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+import { OrderPack } from '../shared/models/order-pack';
+import { OrderPackService } from '../shared/services/order-pack.service';
 
 @Component({
   selector: 'app-order-pack-detail',
@@ -7,9 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OrderPackDetailComponent implements OnInit {
 
-  constructor() { }
+  @Input() orderPack: OrderPack = new OrderPack();;
+
+  constructor(
+    private route: ActivatedRoute,
+    private orderPackService: OrderPackService
+  ) { }
 
   ngOnInit() {
+    this.getOrderPack();
+  }
+
+  getOrderPack(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.orderPackService.getOrderPack(id).subscribe(orderPack => this.orderPack = orderPack);
   }
 
 }

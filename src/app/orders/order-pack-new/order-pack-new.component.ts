@@ -53,6 +53,7 @@ export class OrderPackNewComponent implements OnInit {
     } else if (tab === 1) {
       if (this.orderPack.menuSource === 2) return this.validateMenuUrl();
       else if (this.orderPack.menuSource === 3) return this.validateMenuOrder();
+      return true;
     } else {
       return true;
     }

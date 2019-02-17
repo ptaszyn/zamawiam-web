@@ -12,6 +12,7 @@ import { RestaurantMenuComponent } from '../../restaurant-menu/restaurant-menu.c
 export class FoodGroupComponent implements OnInit {
 
   @Input() foodGroup: FoodGroup;
+  sideFoodGroups: FoodGroup[];
 
   constructor(
     private restaurantService: RestaurantService,
@@ -19,12 +20,14 @@ export class FoodGroupComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getSideFoodGroups();
   }
 
   addFoodGroup(foodGroup: FoodGroup): void {
     this.restaurantService.addFoodGroup(foodGroup)
       .subscribe(foodGroup => {
         this.restaurantMenu.foodGroups.push(foodGroup);
+        this.restaurantMenu.getFoodGroups();
       });
   }
 
@@ -33,7 +36,21 @@ export class FoodGroupComponent implements OnInit {
     this.restaurantService.putFoodGroup(foodGroup)
       .subscribe(foodGroup => {
         this.restaurantMenu.foodGroups[index] = foodGroup;
+        this.restaurantMenu.getFoodGroups();
       });
+  }
+
+  getSideFoodGroups(): void {
+    if (this.restaurantMenu.foodGroups) {
+      this.sideFoodGroups = this.restaurantMenu.foodGroups.filter(foodGroup => (!foodGroup.isMain));
+    }
+  }
+
+  // Display functions
+
+  noneModalFg(idModal: string): void {
+    idModal ? idModal : idModal = '';
+    document.getElementById('fg' + idModal).style.display = 'none';
   }
 
 }
