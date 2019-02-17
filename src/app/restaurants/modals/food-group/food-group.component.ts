@@ -48,9 +48,9 @@ export class FoodGroupComponent implements OnInit {
 
   // Display functions
 
-  noneModalFg(idModal: string): void {
-    idModal ? idModal : idModal = '';
-    document.getElementById('fg' + idModal).style.display = 'none';
+  noneModalFg(idModal: number): void {
+    //idModal ? idModal : idModal = '';
+    document.getElementById('fg' + idModal.toString()).style.display = 'none';
   }
 
 }
