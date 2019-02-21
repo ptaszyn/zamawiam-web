@@ -43,7 +43,7 @@ export class FoodItemComponent implements OnInit {
   // Display functions
 
   noneModalFi(idGroup: number, idModal: number): void {
-    //idModal ? idModal : idModal = '';
-    document.getElementById('fg'.concat(idGroup.toString(), 'fi', idModal.toString())).style.display = 'none';
+    let idElement = 'fg'.concat(idGroup.toString(), 'fi', (idModal ? idModal.toString() : ''));
+    document.getElementById(idElement).style.display = 'none';
   }
 }

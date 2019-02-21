@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Restaurant } from 'src/app/restaurants/shared/models/restaurant';
 import { RestaurantService } from 'src/app/restaurants/shared/services/restaurant.service';
 import { OrderMenu } from '../shared/models/order-menu';
 import { OrderPack } from '../shared/models/order-pack';
 import { OrderPackService } from '../shared/services/order-pack.service';
-import { of } from 'rxjs'
-import { Observable } from 'rxjs';
-import { restoreView } from '@angular/core/src/render3';
-import { tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-pack-new',

@@ -1,12 +1,64 @@
-<p>
-  order-head-detail works!
-</p>
-<p>
-  order-head-detail works!
-</p>
-<p>
-  {{orderHead.id}}order-head-detail works!
-</p>
-<p>
-  {{orderHead.id}}
-</p>
+<div class="container">
+  <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
+  <p *ngIf="restaurant.url">WWW: {{restaurant.url}}</p>
+  <p *ngIf="restaurant.description">Opis: {{restaurant.description}}</p>
+  <p *ngIf="restaurant.requirement">Wymagania: {{restaurant.requirement}}</p>
+  <div class="row">
+
+    <div class="col-70">
+      <div class="contain-card">
+        <h3>damian.ptaszynski@sodexo.com</h3>
+        <p>Chicken Tikka Masala + ryż</p>
+        <label><input type="checkbox"> Zapłacone</label>
+      </div>
+      <div class="contain-card">
+        <h3>krzysiu.krawczynski@sodexo.com</h3>
+        <p>Kadai Vegetable + chlebek</p>
+        <label><input type="checkbox"> Zapłacone</label>
+      </div>
+    </div>
+
+    <div class="col-30">
+      <div class="contain">
+        <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
+        <table>
+          <tr>
+            <td><a href="#">Butter Chicken</a></td>
+            <td>1</td>
+            <td><span class="price"> $15</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">Chicken Tikka Masala</a></td>
+            <td>1</td>
+            <td><span class="price"> $5</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">Chicken Palak</a></td>
+            <td>1</td>
+            <td><span class="price"> $8</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">Kadai Vegetable</a></td>
+            <td>1</td>
+            <td><span class="price"> $2</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">+ ryż</a></td>
+            <td>2</td>
+            <td><span class="price"> $2</span></td>
+          </tr>
+          <tr>
+            <td><a href="#">+ chlebek</a></td>
+            <td>2</td>
+            <td><span class="price"> $2</span></td>
+          </tr>
+        </table>
+        <hr>
+        <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
+        <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
+      </div>
+    </div>
+
+  </div>
+
+</div>
