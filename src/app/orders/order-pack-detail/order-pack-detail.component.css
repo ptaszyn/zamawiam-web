@@ -44,17 +44,18 @@
 
 .contain {
     background-color: #f2f2f2;
-    padding: 5px 20px 15px 20px;
+    padding: 16px 20px 15px 20px;
     border: 1px solid lightgrey;
     border-radius: 3px;
+    margin: 16px 0;
   }
 
   
 .contain-card {
-  border: 1px solid lightgrey;
   background-color: #f2f2f2;
-  border-radius: 5px;
   padding: 16px;
+  border: 1px solid lightgrey;
+  border-radius: 3px;
   margin: 16px 0;
   width: 80%;
 }

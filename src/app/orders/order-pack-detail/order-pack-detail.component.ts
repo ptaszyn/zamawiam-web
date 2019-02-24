@@ -11,7 +11,8 @@ import { OrderPackService } from '../shared/services/order-pack.service';
 })
 export class OrderPackDetailComponent implements OnInit {
 
-  @Input() orderPack: OrderPack = new OrderPack();;
+  @Input() orderPack: OrderPack = new OrderPack();
+  urlNewOrder: string = window.location.href + '/order';
 
   constructor(
     private route: ActivatedRoute,

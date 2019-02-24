@@ -1,61 +1,44 @@
 <div class="container">
-  <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
-  <p *ngIf="restaurant.url">WWW: {{restaurant.url}}</p>
-  <p *ngIf="restaurant.description">Opis: {{restaurant.description}}</p>
-  <p *ngIf="restaurant.requirement">Wymagania: {{restaurant.requirement}}</p>
+  <h1>Dziś zamawiamy z lokalu: {{orderPack.restaurantName}}</h1>
+  <a *ngIf="orderPack.comment">Komentarz: {{orderPack.comment}}</a><br>
+  <a *ngIf="restaurant.url" href="{{restaurant.url}}">{{restaurant.url}}</a>
+  <a *ngIf="restaurant.description">Opis: {{restaurant.description}}</a>
+  <a *ngIf="restaurant.requirement">Wymagania: {{restaurant.requirement}}</a>
+  <h4>Wejdź na stronę, wybierz co chcesz i wpisz</h4>
+
   <div class="row">
 
     <div class="col-70">
-      <div class="contain-card">
-        <h3>damian.ptaszynski@sodexo.com</h3>
-        <p>Chicken Tikka Masala + ryż</p>
-        <label><input type="checkbox"> Zapłacone</label>
-      </div>
-      <div class="contain-card">
-        <h3>krzysiu.krawczynski@sodexo.com</h3>
-        <p>Kadai Vegetable + chlebek</p>
-        <label><input type="checkbox"> Zapłacone</label>
-      </div>
+      <div *ngFor="let orderItem of orderItems" class="contain-card">
+        <form action="/action_page.php">
+          <textarea rows="2" cols="50" [(ngModel)]="orderItem.ownOrder" name="ownOrder"
+            placeholder="danie.."></textarea>
+          <input [(ngModel)]="orderItem.amount" name="amount" type="number" id="amount" placeholder="kwota..">
+          <textarea rows="1" cols="50" [(ngModel)]="orderItem.comment" name="comment"
+            placeholder="komentarz.."></textarea>
+          <button (click)="removeOrderItem(orderItem)">Usuń</button>
+        </form>
+      </div> 
+      <div class="clearfix">
+          <button class="cancelbtn" (click)="onSubmit()">Anuluj zamówienie</button>
+          <button class="menubtn" (click)="addOrderItem()">Dodaj danie</button>
+          <button class="savebtn" (click)="onSubmit()">Wyślij zamówienie</button>
+        </div>
     </div>
 
     <div class="col-30">
       <div class="contain">
         <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
         <table>
-          <tr>
-            <td><a href="#">Butter Chicken</a></td>
-            <td>1</td>
-            <td><span class="price"> $15</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Chicken Tikka Masala</a></td>
-            <td>1</td>
-            <td><span class="price"> $5</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Chicken Palak</a></td>
-            <td>1</td>
-            <td><span class="price"> $8</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Kadai Vegetable</a></td>
-            <td>1</td>
-            <td><span class="price"> $2</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">+ ryż</a></td>
-            <td>2</td>
-            <td><span class="price"> $2</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">+ chlebek</a></td>
-            <td>2</td>
-            <td><span class="price"> $2</span></td>
+          <tr *ngFor="let orderItem of orderItems">
+            <td>
+              <p>{{orderItem.ownOrder}}</p>
+            </td>
+            <td><span class="price"> ${{orderItem.amount}}</span></td>
           </tr>
         </table>
         <hr>
-        <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
-        <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
+        <p>Razem <span class="price" style="color:black"><b>${{getTotal()}}</b></span></p>
       </div>
     </div>
 

@@ -6,6 +6,7 @@ import { RestaurantService } from 'src/app/restaurants/shared/services/restauran
 import { Restaurant } from 'src/app/restaurants/shared/models/restaurant';
 import { OrderPack } from '../shared/models/order-pack';
 import { OrderPackService } from '../shared/services/order-pack.service';
+import { OrderItem } from '../shared/models/order-item';
 
 @Component({
   selector: 'app-order-head-detail',
@@ -17,6 +18,7 @@ export class OrderHeadDetailComponent implements OnInit {
   @Input() orderHead: OrderHead = new OrderHead();
   orderPack: OrderPack = new OrderPack();
   restaurant: Restaurant = new Restaurant();
+  orderItems: OrderItem[];
 
   private idPack: number;
 
@@ -31,6 +33,7 @@ export class OrderHeadDetailComponent implements OnInit {
     this.idPack = +this.route.snapshot.paramMap.get('idPack');
     this.getOrderHead();
     this.getRestaurant();
+    this.addOrderItem();
   }
 
   getOrderHead(): void {
@@ -51,6 +54,27 @@ export class OrderHeadDetailComponent implements OnInit {
   async getRestaurant() {
     await this.getOrderPack();
     this.restaurantService.getRestaurant(this.orderPack.restaurantId).subscribe(restaurant => this.restaurant = restaurant);
+  }
+
+  addOrderItem(): void {
+    if(this.orderItems){
+      this.orderItems.push(new OrderItem());
+    } else {
+      this.orderItems = [new OrderItem];
+    }
+  }
+
+  removeOrderItem(orderItem: OrderItem): void {
+    let index = this.orderItems.indexOf(orderItem);
+    this.orderItems.splice(index,1);
+  }
+
+  getTotal(): number {
+    let total: number = 0;
+    this.orderItems.forEach(item => {
+      total += item.amount;
+    });
+    return total;
   }
 
   onSubmit() {
