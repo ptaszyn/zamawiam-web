@@ -5,5 +5,5 @@ export class OrderItem {
     foodItemId: number;
     ownOrder: string;
     amount: number = 0;
-    comment: string;
+    parentId: number;
 }

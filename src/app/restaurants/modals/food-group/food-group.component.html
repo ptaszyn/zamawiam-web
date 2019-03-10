@@ -1,45 +1,3 @@
-<!-- FoodGroup - Header 
-<h3 *ngIf="foodGroup.id">{{foodGroup.name}}
-  <button class="btn" data-toggle="modal" [attr.data-target]="'#fg'+ foodGroup.id"><i class="far fa-edit"></i></button>
-</h3>
-<div *ngIf="!foodGroup.id">
-  <p><button class="btn-add" data-toggle="modal" [attr.data-target]="'#fg'"><i class="fas fa-plus"></i> Dodaj nową grupę</button></p>
-</div>
-<!-- FoodGroup - Header-End -->
-<!-- FoodGroup - Modal 
-<div class="modal fade" id="fg{{foodGroup.id}}" tabindex="-1" role="dialog" aria-labelledby="sideModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="sideModalLabel">{{foodGroup.name}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form class="needs-validation" novalidate>
-          <div class="mb-3">
-            <label for="name">Nazwa</label>
-            <input [(ngModel)]="foodGroup.name" name="name" type="text" class="form-control" id="name" placeholder="Name"
-              required>
-            <div class="invalid-feedback">
-              Nazwa jest wymagana.
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button *ngIf="foodGroup.id" class="btn btn-primary" (click)="putFoodGroup(foodGroup);"
-          data-dismiss="modal">Zapisz zmiany</button>
-        <button *ngIf="!foodGroup.id" class="btn btn-primary" (click)="addFoodGroup(foodGroup);"
-          data-dismiss="modal">Dodaj do bazy</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- FoodGroupModal-End -->
 
 <div id="fg{{foodGroup.id}}" class="modal">
   <span (click)="noneModalFg(foodGroup.id);" class="close" title="Close Modal">&times;</span>
@@ -49,23 +7,22 @@
       <hr>
       <label for="name"><b>Nazwa</b></label>
       <input [(ngModel)]="foodGroup.name" name="name" type="text" placeholder="Nazwa" class="form-control" required>
-      <label>
+      <p>
         <input type="checkbox" [(ngModel)]="foodGroup.isMain" name="isMain" class="custom-control-input" id="isMain">
         Grupa z daniami
-      </label>
+      </p>
+      <div>Grupa z daniami, oznacza że są tu główne dania do których można dobrać dodatki.</div>
       <div *ngIf="foodGroup.isMain">
-        <br>
-        <label>Wskaż grupy dodatków do dań:</label>
-        <br>
-        <label *ngFor="let side of sideFoodGroups">
-          <input type="checkbox" [(ngModel)]="side.isMain" name="sideisMain" class="custom-control-input" id="sideisMain">
+        <p>Wskaż grupy dodatków do dań:</p>
+        <p *ngFor="let side of sideFoodGroups">
+          <input type="checkbox" (change)="changeSide(side)" [checked]="selectedSideFoodGroups.indexOf(side.id)>-1" name="sideisMain" class="custom-control-input" id="sideisMain">
           {{side.name}}
-        </label>
+        </p>
       </div>
       <div class="clearfix">
-        <button (click)="noneModalFg(foodGroup.id);" class="cancelbtn">Anuluj</button>
         <button *ngIf="foodGroup.id" class="signupbtn" (click)="putFoodGroup(foodGroup); noneModalFg(foodGroup.id);">Zapisz</button>
         <button *ngIf="!foodGroup.id" class="signupbtn" (click)="addFoodGroup(foodGroup); noneModalFg(foodGroup.id);">Dodaj</button>
+        <button (click)="noneModalFg(foodGroup.id);" class="cancelbtn">Anuluj</button>
       </div>
     </div>
   </form>

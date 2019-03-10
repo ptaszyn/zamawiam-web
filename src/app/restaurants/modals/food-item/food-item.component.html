@@ -18,9 +18,9 @@
         <hr>
     
         <div class="clearfix">
-          <button (click)="noneModalFi(foodGroup.id, foodItem.id);" class="cancelbtn">Anuluj</button>
           <button *ngIf="foodItem.id" class="signupbtn" (click)="putFoodItem(foodItem); noneModalFi(foodGroup.id, foodItem.id);">Zapisz</button>
           <button *ngIf="!foodItem.id" class="signupbtn" (click)="addFoodItem(foodItem); noneModalFi(foodGroup.id, foodItem.id);">Dodaj</button>
+          <button (click)="noneModalFi(foodGroup.id, foodItem.id);" class="cancelbtn">Anuluj</button>
         </div>
       </div>
     </form>

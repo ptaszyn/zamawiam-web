@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { LoginRequest } from '../models/login-request';
 import { LoginResponse } from '../models/login-response';
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,8 +15,8 @@ const httpOptions = {
 })
 export class AuthService {
 
-  private signInUrl = 'http://localhost:8080/api/auth/signin';
-  private signUpUrl = 'http://localhost:8080/api/auth/signup';
+  private signInUrl = environment.baseUrl + '/auth/signin';
+  private signUpUrl = environment.baseUrl + '/auth/signup';
 
   constructor(private http: HttpClient) {
   }

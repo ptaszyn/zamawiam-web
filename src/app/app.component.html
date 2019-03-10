@@ -1,20 +1,21 @@
 <div class="navbar" id="myTopnav">
 
   <a [ngClass]="{'active': i===1}" (click)="i=1" routerLink="/home"><i class="fa fa-fw fa-home"></i> Home</a>
-  <a [ngClass]="{'active': i===2}" (click)="i=2" routerLink="/orderpacks/new"><i class="fab fa-elementor"></i> Zamów</a>
+  <a [ngClass]="{'active': i===2}" (click)="i=2" routerLink="/orderpacks/new"><i class="far fa-folder-open"></i> Zbierz zamówienia</a>
+  <!--<a [ngClass]="{'active': i===2}" (click)="i=2" routerLink="/orderpacks/new"><i class="fab fa-elementor"></i> Zamów</a>-->
   <a [ngClass]="{'active': i===3}" (click)="i=3" routerLink="/restaurants"><i class="fas fa-torii-gate"></i>
     Restauracje</a>
 
   <div *ngIf="user()" class="navbar-right">
-    <a href="#"><i class="fa fa-fw fa-user"></i> {{user()}}</a>
+    <a href="javascript:void(0)"><i class="fa fa-fw fa-user"></i> {{user()}}</a>
     <a href="javascript:void(0)" (click)="signOut()"><i class="fas fa-sign-out-alt"></i> Wyloguj</a>
   </div>
 
   <div *ngIf="!user()" class="navbar-right">
-    <a href="javascript:void(0)" (click)="register=true"
+    <a href="javascript:void(0)" (click)="register=true; formReset()"
       onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-file-signature"></i>
       Zarejestruj</a>
-    <a href="javascript:void(0)" (click)="register=false"
+    <a href="javascript:void(0)" (click)="register=false; formReset()"
       onclick="document.getElementById('id01').style.display='block'"><i class="fas fa-sign-in-alt"></i>
       Zaloguj</a>
     <app-login [register]="register"></app-login>

@@ -3,7 +3,7 @@
   <!-- One "tab" for each step in the form: -->
 
   <div class="tab" [style.display]="styleDisplay(0)">
-    <h3>Restauracja:</h3>
+    <h3>Wybierz restaurację lub dodaj nową:</h3>
     <div class="clearfix">
       <div class="splitleft">
         <div class="vertical-menu">
@@ -19,31 +19,60 @@
   </div>
 
   <div class="tab" [style.display]="styleDisplay(1)">
-    <h3>Źródło menu:</h3>
+    <h3>Wskaż gdzie można znaleźć menu:</h3>
     <div style="width:100%">
-      <button [ngClass]="{'active': orderPack.menuSource===1}" (click)="orderPack.menuSource=1" style="width:33.3%">Baza</button>
-      <button [ngClass]="{'active': orderPack.menuSource===2}" (click)="orderPack.menuSource=2" style="width:33.3%">Strona WWW</button>
-      <button [ngClass]="{'active': orderPack.menuSource===3}" (click)="orderPack.menuSource=3" style="width:33.3%">Dodaje teraz</button>
+      <button [ngClass]="{'active': orderPack.menuSource===1}" (click)="orderPack.menuSource=1"
+        style="width:33.3%">Baza</button>
+      <button [ngClass]="{'active': orderPack.menuSource===2}" (click)="orderPack.menuSource=2"
+        style="width:33.3%">Strona WWW</button>
+      <button [ngClass]="{'active': orderPack.menuSource===3}" (click)="orderPack.menuSource=3"
+        style="width:33.3%">Dodaje teraz</button>
     </div>
-    <hr>
-    <div *ngIf="orderPack.menuSource===2">
-      <p><input [(ngModel)]="restaurant.url" name="url" type="url" placeholder="WWW..." [ngClass]="{'invalid': !vUrl}"></p>
-    </div>
-    <div *ngIf="orderPack.menuSource===3" class="clearfix">
-      <div class="splitleft">
-        <button class="btn-add" (click)="addOrderMenu()">Dodaj</button>
-        <div *ngIf="orderMenus?.length > 0" class="vertical-menu">
-          <div *ngFor="let menu of orderMenus">
-            <a (click)="setFormOrderMenu(menu)">{{menu.name}}</a><span (click)="removeOrderMenu(menu)" class="close">x</span>
+
+    <div *ngIf="orderPack.menuSource===1">
+      <p>Będzie można wybrać pozycje z menu wprowadzonego do bazy.</p>
+      <hr>
+      <p>Dostępne menu:</p>
+      <div *ngIf="foodGroups?.length > 0" class="vertical-menu">
+        <div *ngFor="let group of foodGroups">
+          <div *ngIf="group.isMain">
+            <div *ngFor="let item of group.foodItems">
+            <a>{{item.name}}</a>
+          </div>
           </div>
         </div>
       </div>
-      <div class="splitright">
-        <p><input [(ngModel)]="formOrderMenu.name" name="name" placeholder="Nazwa..." [readonly]="!(orderMenus?.length > 0)"
-            [ngClass]="{'invalid': !vMenu}"></p>
-        <p><input [(ngModel)]="formOrderMenu.comment" name="comment" placeholder="Opis..." [readonly]="!(orderMenus?.length > 0)"></p>
-        <p><input [(ngModel)]="formOrderMenu.price" name="price" placeholder="Cena..." [readonly]="!(orderMenus?.length > 0)"
-            [ngClass]="{'invalid': !vPrice}"></p>
+    </div>
+
+    <div *ngIf="orderPack.menuSource===2">
+      <p>Będzie można wpisać co się zamawia, kierując się stroną WWW restauracji.</p>
+      <hr>
+      <p>
+        <input [(ngModel)]="restaurant.url" name="url" type="url" placeholder="WWW..." [ngClass]="{'invalid': !vUrl}">
+      </p>
+    </div>
+
+    <div *ngIf="orderPack.menuSource===3">
+      <p>Należy teraz wprowadzić pozycje, które będzie można zamówić.</p>
+      <hr>
+      <div class="clearfix">
+        <div class="splitleft">
+          <button class="btn-add" (click)="addOrderMenu()">Dodaj</button>
+          <div *ngIf="orderMenus?.length > 0" class="vertical-menu">
+            <div *ngFor="let menu of orderMenus">
+              <a (click)="setFormOrderMenu(menu)">{{menu.name}}</a><span (click)="removeOrderMenu(menu)"
+                class="close">x</span>
+            </div>
+          </div>
+        </div>
+        <div class="splitright">
+          <p><input [(ngModel)]="formOrderMenu.name" name="name" placeholder="Nazwa..."
+              [readonly]="!(orderMenus?.length > 0)" [ngClass]="{'invalid': !vMenu}"></p>
+          <p><input [(ngModel)]="formOrderMenu.comment" name="comment" placeholder="Opis..."
+              [readonly]="!(orderMenus?.length > 0)"></p>
+          <p><input [(ngModel)]="formOrderMenu.price" name="price" placeholder="Cena..."
+              [readonly]="!(orderMenus?.length > 0)" [ngClass]="{'invalid': !vPrice}"></p>
+        </div>
       </div>
     </div>
   </div>

@@ -4,8 +4,9 @@ export class FoodGroup {
     id: number;
 	name: string;
 	restaurantId: number;
-	isMain: boolean;
+	isMain: boolean = true;
 	foodItems: Array<FoodItem> = [];
+	sideFoodGroups: Array<FoodGroup> = [];
 	
 	constructor(restaurantId){
         this.restaurantId = restaurantId;

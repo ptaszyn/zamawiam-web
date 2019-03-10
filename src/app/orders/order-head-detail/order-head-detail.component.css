@@ -42,7 +42,7 @@
   }
   
 
-input, textarea {
+input, textarea, select {
   padding: 10px;
   width: 100%;
   font-size: 17px;
@@ -58,19 +58,20 @@ button {
   font-size: 17px;
   font-family: Raleway;
   cursor: pointer;
-  width: 33.3%;
+  width: 50%;
 }
 
 button.savebtn {
   background-color: #4CAF50;
 }
 
-button.menubtn {
-  background-color: chocolate;
-}
-
 button.cancelbtn {
   background-color: #333;
+}
+
+button.menubtn {
+  background-color: chocolate;
+  width: 100%;
 }
 
 button:hover {
@@ -114,15 +115,23 @@ button:hover {
 }
 
 @media (max-width: 500px) {
+  .card, button {
+      text-align: center;
+      width: 100%;
+  }
+  button {
+    margin-top: 10px;
+  }
   .contain-card {
       text-align: center;
       width: 100%;
   }
 }
-
-@media (max-width: 500px) {
-  .card, button {
-      text-align: center;
-      width: 100%;
-  }
+/* Style the close button (span) */
+.close {
+  text-decoration-style: solid;
+  cursor: pointer;
+  padding: 10px;
 }
+
+.close:hover {background: #bbb;}

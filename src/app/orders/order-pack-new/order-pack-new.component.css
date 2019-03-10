@@ -29,6 +29,10 @@ input.invalid {
   border: 1px solid red;
 }
 
+input[readonly]{ 
+  background-color: grey;
+}
+
 .btn-add {
   width: 100%;
 }

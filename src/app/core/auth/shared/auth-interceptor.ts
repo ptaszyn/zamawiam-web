@@ -24,7 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
         //return next.handle(authReq);
         return next.handle(authReq).pipe(tap((event: HttpEvent<any>) => { }, (err: any) => {
             if (err instanceof HttpErrorResponse) {
-                this.notify.notify(new Notification(err.message));
+                if (err.status == 401) {
+                    this.notify.notify(new Notification("Operacja wymaga logowania")); 
+                } else { this.notify.notify(new Notification(err.message)); }
             }
         }));
     }

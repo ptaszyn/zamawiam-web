@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { Restaurant } from '../models/restaurant';
 import { FoodGroup } from '../models/food-group';
 import { FoodItem } from '../models/food-item';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestaurantService {
 
-  private restaurantsUrl = 'http://localhost:8080/api/restaurants';
+  private restaurantsUrl = environment.baseUrl + '/restaurants';
 
   private headers: HttpHeaders = new HttpHeaders({
     'Authorization': 'Basic ' + sessionStorage.getItem('token')

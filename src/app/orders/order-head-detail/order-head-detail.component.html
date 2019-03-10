@@ -1,29 +1,76 @@
 <div class="container">
   <h1>Dziś zamawiamy z lokalu: {{orderPack.restaurantName}}</h1>
-  <a *ngIf="orderPack.comment">Komentarz: {{orderPack.comment}}</a><br>
-  <a *ngIf="restaurant.url" href="{{restaurant.url}}">{{restaurant.url}}</a>
-  <a *ngIf="restaurant.description">Opis: {{restaurant.description}}</a>
-  <a *ngIf="restaurant.requirement">Wymagania: {{restaurant.requirement}}</a>
-  <h4>Wejdź na stronę, wybierz co chcesz i wpisz</h4>
+  <p><a *ngIf="restaurant.url" href="{{restaurant.url}}">{{restaurant.url}}</a></p>
+  <p *ngIf="restaurant.description">Opis: {{restaurant.description}}</p>
+  <p *ngIf="orderPack.comment">Komentarz: {{orderPack.comment}}</p>
 
   <div class="row">
 
     <div class="col-70">
-      <div *ngFor="let orderItem of orderItems" class="contain-card">
-        <form action="/action_page.php">
-          <textarea rows="2" cols="50" [(ngModel)]="orderItem.ownOrder" name="ownOrder"
-            placeholder="danie.."></textarea>
-          <input [(ngModel)]="orderItem.amount" name="amount" type="number" id="amount" placeholder="kwota..">
-          <textarea rows="1" cols="50" [(ngModel)]="orderItem.comment" name="comment"
-            placeholder="komentarz.."></textarea>
-          <button (click)="removeOrderItem(orderItem)">Usuń</button>
-        </form>
-      </div> 
       <div class="clearfix">
-          <button class="cancelbtn" (click)="onSubmit()">Anuluj zamówienie</button>
+        <div class="contain-card">
+
+          <div *ngIf="orderPack.menuSource===1">
+            <a>Wybierz danie z menu:</a>
+            <p>
+              <select [(ngModel)]="selectedMainFoodItem" (change)="setSideFoodGroups(selectedMainFoodItem)">
+                <option *ngFor="let mainFoodItem of mainFoodItems" [ngValue]="mainFoodItem">{{mainFoodItem.name}}</option>
+              </select>
+            </p>
+            <p *ngIf="selectedMainFoodItem">
+              <label>{{selectedMainFoodItem.description}}</label>
+              <br>
+              <label><i class="fas fa-dollar-sign"></i> {{selectedMainFoodItem.price}}</label>
+            </p>
+            <div *ngIf="selectedMainFoodItem && sideFoodGroups">
+              <p *ngFor="let sideFoodGroup of sideFoodGroups; let i = index">{{sideFoodGroup.name}}
+              <select [(ngModel)]="selectedSides[i]">
+                <option *ngFor="let sideFoodItem of sideFoodGroup.foodItems" [ngValue]="sideFoodItem">{{sideFoodItem.name}}</option>
+              </select>
+            </p>
+          </div>
+          </div>
+
+          <div *ngIf="orderPack.menuSource===2">
+            <textarea rows="2" cols="50" [(ngModel)]="newOrderItem.ownOrder" name="ownOrder"
+              placeholder="danie.."></textarea>
+            <p><input [(ngModel)]="newOrderItem.amount" name="amount" type="number" id="amount" placeholder="kwota..">
+            </p>
+          </div>
+
+          <div *ngIf="orderPack.menuSource===3">
+              <a>Wybierz danie z menu:</a>
+              <p>
+                <select [(ngModel)]="selectedOrderMenu">
+                  <option *ngFor="let orderMenu of orderPack.orderMenus" [ngValue]="orderMenu">{{orderMenu.name}}</option>
+                </select>
+              </p>
+              <p *ngIf="selectedOrderMenu">
+                <label>{{selectedOrderMenu.comment}}</label>
+                <br>
+                <label><i class="fas fa-dollar-sign"></i> {{selectedOrderMenu.price}}</label>
+              </p>
+          </div>
+
           <button class="menubtn" (click)="addOrderItem()">Dodaj danie</button>
-          <button class="savebtn" (click)="onSubmit()">Wyślij zamówienie</button>
         </div>
+        
+        <div *ngIf="orderItems?.length > 0" class="contain-card">
+            <a>Zamówione:</a>
+            <div class="vertical-menu">
+                <div *ngFor="let order of orderItems">
+                  <p>
+                  <span (click)="removeOrder(order)" class="close"><i class="fas fa-backspace"></i></span>
+                  <a> {{order.ownOrder}} </a>
+                  <a *ngFor="let side of getSides(order)">+ {{side.name}} </a>
+                </p>
+                </div>
+              </div>
+        </div>
+
+        <button class="savebtn" (click)="onSubmit()">Wyślij zamówienie</button>
+        <button class="cancelbtn" (click)="onSubmit()">Anuluj zamówienie</button>
+      </div>
     </div>
 
     <div class="col-30">
@@ -32,7 +79,7 @@
         <table>
           <tr *ngFor="let orderItem of orderItems">
             <td>
-              <p>{{orderItem.ownOrder}}</p>
+              <p>{{orderItem.ownOrder}}<a *ngFor="let side of getSides(orderItem)">+ {{side.name}} </a></p>
             </td>
             <td><span class="price"> ${{orderItem.amount}}</span></td>
           </tr>

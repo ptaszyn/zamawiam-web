@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { OrderPack } from '../shared/models/order-pack';
 import { OrderPackService } from '../shared/services/order-pack.service';
@@ -27,5 +28,10 @@ export class OrderPackDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id');
     this.orderPackService.getOrderPack(id).subscribe(orderPack => this.orderPack = orderPack);
   }
+
+  copy(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+ }
 
 }

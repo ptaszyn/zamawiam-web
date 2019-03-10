@@ -3,13 +3,14 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { OrderPack } from '../models/order-pack';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderPackService {
 
-  private orderPacksUrl = 'http://localhost:8080/api/orderpacks';
+  private orderPacksUrl = environment.baseUrl + '/orderpacks';
 
   private headers: HttpHeaders = new HttpHeaders({
     'Authorization': 'Basic ' + sessionStorage.getItem('token')

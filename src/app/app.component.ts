@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from './core/msg/notification.service';
+import { LoginComponent } from './core/auth/modals/login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,7 @@ import { NotificationService } from './core/msg/notification.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  @ViewChild(LoginComponent) public loginComponent: LoginComponent;
   title = 'zamawiam-web';
   username = sessionStorage.getItem('AuthUsername');
   i = 1;
@@ -35,6 +36,11 @@ export class AppComponent implements OnInit {
  
   signOut() {
     window.sessionStorage.clear();
+    window.location.reload();
+  }
+
+  formReset(){
+    this.loginComponent.resetForm();
   }
 
   myTopnavClick(): void {

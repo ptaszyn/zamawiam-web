@@ -1,14 +1,10 @@
 <div class="container">
   <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
-  <ul class="progressbar">
-    <li class="active">Otwarte</li>
-    <li>Zamknięte</li>
-    <li>Zamówione</li>
-    <li>Dostarczone</li>
-    <li>Opłacone</li>
-  </ul>
 
-<h3>Link do składania zamówień: {{urlNewOrder}}</h3>
+  <h3>Link do składania zamówień:</h3>
+  <input type="url" value="{{urlNewOrder}}" readonly #urlToNewOrder>
+  <button (click)="copy(urlToNewOrder)"><i class="far fa-copy"></i> Kopiuj</button>
+  <button class="orderbtn" [routerLink]="['/orderpacks/',orderPack.id,'order']"><i class="fas fa-angle-double-right"></i> Też zamów</button>
 
   <div class="row">
 
@@ -63,82 +59,6 @@
         <hr>
         <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
         <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="container">
-  <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
-  <ul class="progressbar">
-    <li class="active">Otwarte</li>
-    <li>Zamknięte</li>
-    <li>Zamówione</li>
-    <li>Dostarczone</li>
-    <li>Opłacone</li>
-  </ul>
-
-  <div class="row">
-
-    <div class="col-70">
-      <div class="card">
-        <div class="card-content">
-          <h3>damian.ptaszynski@sodexo.com</h3>
-          <p>Chicken Tikka Masala + ryż</p>
-          <label><input type="checkbox"> Zapłacone</label>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <h3>krzysiu.krawczynski@sodexo.com</h3>
-          <p>Kadai Vegetable + chlebek</p>
-          <label><input type="checkbox"> Zapłacone</label>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-30">
-      <div class="card">
-        <div class="card-content">
-          <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
-          <table>
-            <tr>
-              <td><a href="#">Butter Chicken</a></td>
-              <td>1</td>
-              <td><span class="price"> $15</span></td>
-            </tr>
-            <tr>
-              <td><a href="#">Chicken Tikka Masala</a></td>
-              <td>1</td>
-              <td><span class="price"> $5</span></td>
-            </tr>
-            <tr>
-              <td><a href="#">Chicken Palak</a></td>
-              <td>1</td>
-              <td><span class="price"> $8</span></td>
-            </tr>
-            <tr>
-              <td><a href="#">Kadai Vegetable</a></td>
-              <td>1</td>
-              <td><span class="price"> $2</span></td>
-            </tr>
-            <tr>
-              <td><a href="#">+ ryż</a></td>
-              <td>2</td>
-              <td><span class="price"> $2</span></td>
-            </tr>
-            <tr>
-              <td><a href="#">+ chlebek</a></td>
-              <td>2</td>
-              <td><span class="price"> $2</span></td>
-            </tr>
-          </table>
-          <hr>
-          <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
-          <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
-        </div>
       </div>
     </div>
 

@@ -6,6 +6,7 @@ import { RestaurantService } from 'src/app/restaurants/shared/services/restauran
 import { OrderMenu } from '../shared/models/order-menu';
 import { OrderPack } from '../shared/models/order-pack';
 import { OrderPackService } from '../shared/services/order-pack.service';
+import { FoodGroup } from 'src/app/restaurants/shared/models/food-group';
 
 @Component({
   selector: 'app-order-pack-new',
@@ -18,6 +19,7 @@ export class OrderPackNewComponent implements OnInit {
 
   restaurants: Restaurant[];
   restaurant: Restaurant;
+  foodGroups: FoodGroup[];
 
   orderMenus: OrderMenu[];
   formOrderMenu: OrderMenu = new OrderMenu();
@@ -90,7 +92,7 @@ export class OrderPackNewComponent implements OnInit {
     let restaurantId = this.restaurant.id;
     if (restaurantId != null) {
       this.restaurantService.getRestaurantMenu(restaurantId).subscribe(foodGroups => {
-        if ((foodGroups != null) && (foodGroups.length > 0)) { this.orderPack.menuSource = 1; return; }
+        if ((foodGroups != null) && (foodGroups.length > 0)) { this.foodGroups = foodGroups; this.orderPack.menuSource = 1; return; }
       });
     }
     if (this.restaurant.url != null) { this.orderPack.menuSource = 2; return; }

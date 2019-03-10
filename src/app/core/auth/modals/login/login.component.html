@@ -1,69 +1,47 @@
-<!--
-<div *ngIf="info.token">{{info.username}}
-  <button class="btn btn-secondary" (click)="logout()">Wyloguj</button>
-</div>
-<div *ngIf="!info.token">
-  <button class="btn btn-secondary" data-toggle="modal" [attr.data-target]="'#login'">Zaloguj</button>
-</div>
-
-<div class="modal fade" data-backdrop="false" id="login" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <form class="needs-validation" novalidate>
-          <div>
-            <input [(ngModel)]="form.email" name="email" type="email" class="form-control" id="email" placeholder="E-mail"
-              required>
-            <div class="invalid-feedback">
-              E-mail jest wymagany.
-            </div>
-          </div>
-          <div>
-            <input [(ngModel)]="form.password" name="password" type="password" class="form-control" id="password"
-              placeholder="Password" required>
-            <div class="invalid-feedback">
-              Hasło jest wymagane.
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
-        <button class="btn btn-primary" (click)="signIn();" data-dismiss="modal">Zaloguj</button>
-        <button class="btn btn-primary" (click)="signUp();" data-dismiss="modal">Zarejestruj</button>
-      </div>
-    </div>
-  </div>
-</div>
--->
-
-
 <div id="id01" class="modal">
-    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-    <form class="modal-content" action="/action_page.php">
-      <div class="container">
-        <h1 *ngIf="register">Zarejestruj</h1>
-        <h1 *ngIf="!register">Zaloguj</h1>
-        <hr>
+
+  <form class="modal-content" action="/action_page.php" name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm"
+    novalidate>
+    <span onclick="document.getElementById('id01').style.display='none'" class="close"
+      title="Close Modal">&times;</span>
+    <div class="container">
+      <h1 *ngIf="register">Zarejestruj</h1>
+      <h1 *ngIf="!register">Zaloguj</h1>
+      <hr>
+      <div class="form-group frm-in">
         <label for="email"><b>Email</b></label>
-        <input [(ngModel)]="form.email" name="email" type="text" placeholder="Email" class="form-control" required>
-  
-        <label for="psw"><b>Hasło</b></label>
-        <input [(ngModel)]="form.password" name="psw" type="password" placeholder="Hasło" class="form-control" required>
-  
-        <label *ngIf="register" for="psw-repeat"><b>Powtórz hasło</b></label>
-        <input *ngIf="register" type="password" placeholder="Hasło" name="psw-repeat" required>
-        
-        <label>
-          <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Zapamiętaj mnie
-        </label>
-  
-        <div class="clearfix">
-          <button onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Anuluj</button>
-          <button *ngIf="register" class="signupbtn" (click)="signUp()">Zarejestruj</button>
-          <button *ngIf="!register" class="signupbtn" (click)="signIn()">Zaloguj</button>
+        <input type="text" placeholder="Email" class="form-control" name="email" [(ngModel)]="model.email"
+          #email="ngModel" [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email />
+        <div *ngIf="f.submitted && email.invalid" class="invalid-feedback">
+          <div *ngIf="email.errors.required">Email jest wymagany</div>
+          <div *ngIf="email.errors.email">Email podany w błędnym formacie.</div>
         </div>
       </div>
-    </form>
-  </div>
+      <div class="form-group frm-in">
+        <label for="password"><b>Hasło</b> (min. 6 znaków)</label>
+        <input type="password" placeholder="Hasło" class="form-control" name="password" [(ngModel)]="model.password"
+          #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required minlength="6" />
+        <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+          <div *ngIf="password.errors.required">Hasło jest wymagane</div>
+          <div *ngIf="password.errors.minlength">Hasło musi posiadać min. 6 znaków</div>
+        </div>
+      </div>
+      <div *ngIf="register" class="form-group frm-in">
+        <label for="confirmPassword"><b>Powtórz hasło</b></label>
+        <input type="password" class="form-control" name="confirmPassword" [(ngModel)]="model.confirmPassword"
+          #confirmPassword="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && (confirmPassword.invalid || notPassMatch())}" required />
+        <div *ngIf="f.submitted && (confirmPassword.invalid || notPassMatch())" class="invalid-feedback">
+          <div *ngIf="confirmPassword.invalid && confirmPassword.errors.required">Pole jest wymagane</div>
+          <div *ngIf="notPassMatch()">Hasło nie pasuje</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="clearfix">
+          <button type="submit" *ngIf="register">Zarejestruj</button>
+          <button type="submit" *ngIf="!register">Zaloguj</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
