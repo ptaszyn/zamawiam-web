@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { OrderHead } from '../shared/models/order-head';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OrderHeadService } from '../shared/services/order-head.service';
 import { RestaurantService } from 'src/app/restaurants/shared/services/restaurant.service';
 import { Restaurant } from 'src/app/restaurants/shared/models/restaurant';
@@ -38,7 +38,8 @@ export class OrderHeadDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private orderHeadService: OrderHeadService,
     private orderPackService: OrderPackService,
-    private restaurantService: RestaurantService
+    private restaurantService: RestaurantService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -124,7 +125,11 @@ export class OrderHeadDetailComponent implements OnInit {
   }
 
   onSubmit() {
-    this.orderHeadService.putOrderHead(this.idPack, this.orderHead).subscribe();
+    this.orderHeadService.putOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
+      this.orderHead = orderHead;
+
+      this.router.navigate(['/orderpacks', this.orderHead.orderPackId, 'order', this.orderHead.id]);
+    }, (err) => { console.log(err); });
   }
 
   // food from restaurant database
