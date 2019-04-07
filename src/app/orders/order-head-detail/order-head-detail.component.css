@@ -14,13 +14,13 @@
 
 .col-30 {
   float: left;
-  width: 30%;
+  width: 40%;
   margin-top: 6px;
 }
 
 .col-70 {
   float: left;
-  width: 70%;
+  width: 60%;
   margin-top: 6px;
 }
 
@@ -32,7 +32,7 @@
 }
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
 
     .col-30,
     .col-70 {
@@ -48,6 +48,11 @@ input, textarea, select {
   font-size: 17px;
   font-family: Raleway;
   border: 1px solid #aaaaaa;
+}
+
+input.radio {
+  width: auto;
+  float: left;
 }
 
 button {
@@ -114,7 +119,7 @@ button:hover {
   margin-right: 15px;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 700px) {
   .card, button {
       text-align: center;
       width: 100%;
@@ -135,3 +140,8 @@ button:hover {
 }
 
 .close:hover {background: #bbb;}
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  border: 1px solid red;
+}

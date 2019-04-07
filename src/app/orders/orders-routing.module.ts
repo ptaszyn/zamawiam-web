@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { OrderHeadDetailComponent } from './order-head-detail/order-head-detail.component';
 import { OrderPackNewComponent } from './order-pack-new/order-pack-new.component';
 import { OrderPackDetailComponent } from './order-pack-detail/order-pack-detail.component';
+import { OrderPackListComponent } from './order-pack-list/order-pack-list.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
       { path: ':id', component: OrderPackDetailComponent },
       { path: ':idPack/order/:id', component: OrderHeadDetailComponent },
       { path: ':idPack/order', component: OrderHeadDetailComponent },
-      { path: '', component: OrderPackNewComponent }
+      { path: '', component: OrderPackListComponent }
     ]
   }
 ];

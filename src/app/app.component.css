@@ -71,8 +71,8 @@
 }
 
 footer {  
-  text-align: center; /* Center text*/
-  background: #ddd; /* Grey background */ 
+  text-align: center;
+  background: #ddd; 
   line-height: 50px;
   padding: 0 20px;
   height: 50px;
@@ -127,3 +127,44 @@ footer {
   from {top: 30px; opacity: 1;}
   to {top: 0; opacity: 0;}
 }
+
+
+/*
+body { 
+  display: grid;
+  grid-template-areas: 
+    "header header header"
+    "article article article"
+    "footer footer footer";
+  grid-template-rows: 80px 1fr 70px;  
+  grid-template-columns: 20% 1fr 15%;
+  grid-row-gap: 10px;
+  grid-column-gap: 10px;
+  height: 100vh;
+  margin: 0;
+  }  
+/* Stack the layout on small devices/viewports. 
+@media all and (max-width: 575px) {
+  body { 
+    grid-template-areas: 
+      "header"
+      "article"
+      "footer";
+    grid-template-rows: 80px 1fr 70px 1fr 70px;  
+    grid-template-columns: 1fr;
+ }
+}
+header, footer, article, div {
+  padding: 1.2em;
+  background: gold;
+  }
+#pageHeader {
+  grid-area: header;
+  }
+#pageFooter {
+  grid-area: footer;
+  }
+#mainArticle { 
+  grid-area: article;      
+  }
+  */

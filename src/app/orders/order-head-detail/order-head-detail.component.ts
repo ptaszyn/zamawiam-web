@@ -9,6 +9,8 @@ import { OrderPackService } from '../shared/services/order-pack.service';
 import { OrderItem } from '../shared/models/order-item';
 import { FoodGroup } from 'src/app/restaurants/shared/models/food-group';
 import { FoodItem } from 'src/app/restaurants/shared/models/food-item';
+import { OrderMenu } from '../shared/models/order-menu';
+import { Payment } from '../shared/models/payment';
 
 @Component({
   selector: 'app-order-head-detail',
@@ -20,19 +22,25 @@ export class OrderHeadDetailComponent implements OnInit {
   @Input() orderHead: OrderHead = new OrderHead();
   orderPack: OrderPack = new OrderPack();
   restaurant: Restaurant = new Restaurant();
-  orderItems: OrderItem[];
+  
+  private Payment = Payment;
+  payments: any;
+
   newOrderItem: OrderItem;
 
-  mainFoodItems: FoodItem[];
   selectedMainFoodItem: any;
-  foodGroups: FoodGroup[];
-  sideFoodGroups: FoodGroup[];
-  selectedSides: FoodItem[] = [];
-  selectedSidesMap: Map<any, FoodItem[]>;
-
   selectedOrderMenu: any;
+  
+  foodGroups: FoodGroup[];
+  mainFoodItems: FoodItem[];
+  sideFoodGroups: FoodGroup[];
 
-  private idPack: number;
+  selectedSides: FoodItem[] = [];
+
+  idPack: number;
+   
+  //validation
+  vPay = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,12 +52,17 @@ export class OrderHeadDetailComponent implements OnInit {
 
   ngOnInit() {
     this.idPack = +this.route.snapshot.paramMap.get('idPack');
-    this.loadData();
+    this.payments = Object.keys(Payment);
     this.newOrderItem = new OrderItem();
-    this.selectedSidesMap = new Map();
+    this.loadData();
   }
 
+  /*
+  * load data
+  */ 
+
   async loadData() {
+    this.getOrderHead();
     await this.getOrderPack();
     await this.getRestaurant();
     await this.getRestaurantMenu();
@@ -80,60 +93,114 @@ export class OrderHeadDetailComponent implements OnInit {
     });
   }
 
+  /*
+  * add new order
+  */ 
+
   addOrderItem(): void {
     // menu 1 - database
     if (this.orderPack.menuSource === 1) {
-      this.setOrderItemFromFoodItem()
+      this.newOrderItem = this.convertFoodItemToOrderItem(this.selectedMainFoodItem);
+      if (this.selectedSides) {
+        for (let side of this.selectedSides) {
+          if (this.newOrderItem.sideOrderItems) {
+            this.newOrderItem.sideOrderItems.push(this.convertFoodItemToOrderItem(side));
+          } else {
+            this.newOrderItem.sideOrderItems = [this.convertFoodItemToOrderItem(side)];
+          }
+        }
+        this.selectedSides = [];
+      }
     }
     // menu 3 - order
     if (this.orderPack.menuSource === 3) {
-      if (this.selectedOrderMenu == null) {
-        return;
-      }
-      this.newOrderItem.orderMenuId = this.selectedOrderMenu.id;
-      this.newOrderItem.ownOrder = this.selectedOrderMenu.name;
-      this.newOrderItem.amount = this.selectedOrderMenu.price;
+      this.newOrderItem = this.convertOrderMenuToOrderItem(this.selectedOrderMenu);
     }
-    // add to list
-    if (this.orderItems) {
-      this.orderItems.push(this.newOrderItem);
+    // add to order list
+    if (this.orderHead.orderItems) {
+      this.orderHead.orderItems.push(this.newOrderItem);
     } else {
-      this.orderItems = [this.newOrderItem];
+      this.orderHead.orderItems = [this.newOrderItem];
     }
-    // clear new
+    // clear add form
     this.newOrderItem = new OrderItem();
   }
 
+  private convertFoodItemToOrderItem(foodItem: FoodItem): OrderItem {
+    if (foodItem == null) {
+      return;
+    }
+    let orderItem: OrderItem = new OrderItem();
+    orderItem.foodItemId = foodItem.id;
+    orderItem.ownOrder = foodItem.name;
+    orderItem.amount = foodItem.price;
+    return orderItem;
+  }
+
+  private convertOrderMenuToOrderItem(orderMenu: OrderMenu): OrderItem {    
+    if (orderMenu == null) {
+      return;
+    }
+    let orderItem: OrderItem = new OrderItem();
+    orderItem.orderMenuId = orderMenu.id;
+    orderItem.ownOrder = orderMenu.name;
+    orderItem.amount = orderMenu.price;
+    return orderItem;
+  }
+
+  /*
+  * remove order
+  */ 
+
   removeOrder(orderItem: OrderItem): void {
-    let index = this.orderItems.indexOf(orderItem);
-    this.selectedSidesMap.delete(orderItem);
-    this.orderItems.splice(index, 1);
+    let index = this.orderHead.orderItems.indexOf(orderItem);
+    this.orderHead.orderItems.splice(index, 1);
   }
 
-  getSides(orderItem: OrderItem): FoodItem[] {
-    return this.selectedSidesMap.get(orderItem);
+  /*
+  * view
+  */ 
+
+  getSides(orderItem: OrderItem): OrderItem[] {
+    let index = this.orderHead.orderItems.indexOf(orderItem);
+    return this.orderHead.orderItems[index].sideOrderItems;
   }
 
-  getTotal(): number {
+  getTotal(): string {
     let total: number = 0;
-    if (this.orderItems != null) {
-      this.orderItems.forEach(item => {
+    if (this.orderHead.orderItems != null) {
+      this.orderHead.orderItems.forEach(item => {
         total += item.amount;
       });
     }
-    return total;
+    return total.toFixed(2);
   }
 
-  onSubmit() {
-    this.orderHeadService.putOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
-      this.orderHead = orderHead;
+  /*
+  * validation
+  */
+  validate(): boolean {
+    this.vPay = false;
+    if (this.orderHead.payment) this.vPay = true;
+    return this.vPay;
+  }
 
+  /*
+  * send orders
+  */ 
+
+  onSubmit() {
+    if(!this.validate()) return;
+    this.orderHeadService.addOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
+      this.orderHead = orderHead;
       this.router.navigate(['/orderpacks', this.orderHead.orderPackId, 'order', this.orderHead.id]);
     }, (err) => { console.log(err); });
   }
 
-  // food from restaurant database
-  
+  /*
+  * food from restaurant database
+  */ 
+
   setMainFoodItems() {
     for (let group of this.foodGroups) {
       if (group.isMain) {
@@ -145,19 +212,6 @@ export class OrderHeadDetailComponent implements OnInit {
           }
         }
       }
-    }
-  }
-
-  setOrderItemFromFoodItem(){
-    if (this.selectedMainFoodItem == null) {
-      return;
-    }
-    this.newOrderItem.foodItemId = this.selectedMainFoodItem.id;
-    this.newOrderItem.ownOrder = this.selectedMainFoodItem.name;
-    this.newOrderItem.amount = this.selectedMainFoodItem.price;
-    if (this.selectedSides) {
-      this.selectedSidesMap.set(this.newOrderItem, this.selectedSides);
-      this.selectedSides =[];
     }
   }
 

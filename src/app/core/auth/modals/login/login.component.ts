@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   notPassMatch(): boolean {
-    return !(this.model.password==this.model.confirmPassword);
+    return !(this.model.password === this.model.confirmPassword);
   }
 
   resetForm(){
@@ -41,11 +41,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    if(this.notPassMatch()) return;
     this.loginRequest = new LoginRequest(
       this.model.email,
       this.model.password);
     if (this.register) {
+      if(this.notPassMatch()) return;
       this.signUp();
     } else {
       this.signIn();

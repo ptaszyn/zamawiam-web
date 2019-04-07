@@ -1,22 +1,33 @@
 <div class="container">
-  <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
 
-  <h3>Link do składania zamówień:</h3>
-  <input type="url" value="{{urlNewOrder}}" readonly #urlToNewOrder>
-  <button (click)="copy(urlToNewOrder)"><i class="far fa-copy"></i> Kopiuj</button>
-  <button class="orderbtn" [routerLink]="['/orderpacks/',orderPack.id,'order']"><i class="fas fa-angle-double-right"></i> Też zamów</button>
+  <div class="barcontainer">
+
+    <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
+    <ul class="progressbar">
+      <li [ngClass]="{'active': orderPack.orderStatusId > 0}" (click)="setStatus(1)">Otwarte</li>
+      <li [ngClass]="{'active': orderPack.orderStatusId > 1}" (click)="setStatus(2)">Zamknięte</li>
+      <li [ngClass]="{'active': orderPack.orderStatusId > 2}" (click)="setStatus(3)">Zamówione</li>
+      <li [ngClass]="{'active': orderPack.orderStatusId > 3}" (click)="setStatus(4)">Dostarczone</li>
+      <li [ngClass]="{'active': orderPack.orderStatusId > 4}" (click)="setStatus(5)">Opłacone</li>
+    </ul>
+  </div>
 
   <div class="row">
 
     <div class="col-70">
-      <div class="contain-card">
-        <h3>damian.ptaszynski@sodexo.com</h3>
-        <p>Chicken Tikka Masala + ryż</p>
-        <label><input type="checkbox"> Zapłacone</label>
-      </div>
-      <div class="contain-card">
-        <h3>krzysiu.krawczynski@sodexo.com</h3>
-        <p>Kadai Vegetable + chlebek</p>
+
+      <h3>Link do składania zamówień:</h3>
+      <input type="url" value="{{urlNewOrder}}" readonly #urlToNewOrder>
+      <button (click)="copy(urlToNewOrder)"><i class="far fa-copy"></i> Kopiuj</button>
+      <button class="orderbtn" [routerLink]="['/orderpacks/',orderPack.id,'order']"><i
+          class="fas fa-angle-double-right"></i> Też zamów</button>
+
+      <div class="contain-card" *ngFor="let orderHead of orderHeads">
+        <h3>{{orderHead.userId}}</h3>
+        <div *ngFor="let orderItem of orderHead.orderItems">
+          <p>{{orderItem.ownOrder}} za {{orderItem.amount}}</p>
+        </div>
+        <p>{{orderHead.comment}}</p>
         <label><input type="checkbox"> Zapłacone</label>
       </div>
     </div>

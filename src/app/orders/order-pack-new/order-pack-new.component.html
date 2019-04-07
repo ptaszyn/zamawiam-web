@@ -34,13 +34,15 @@
       <hr>
       <p>Dostępne menu:</p>
       <div *ngIf="foodGroups?.length > 0" class="vertical-menu">
-        <div *ngFor="let group of foodGroups">
-          <div *ngIf="group.isMain">
-            <div *ngFor="let item of group.foodItems">
-            <a>{{item.name}}</a>
+        <table>
+          <div *ngFor="let group of foodGroups">
+            <div *ngIf="group.isMain">
+              <tr *ngFor="let item of group.foodItems">
+                <td>{{item.name}}</td><td *ngIf="item.description"> - {{item.description}}</td>
+              </tr>
+            </div>
           </div>
-          </div>
-        </div>
+        </table>
       </div>
     </div>
 

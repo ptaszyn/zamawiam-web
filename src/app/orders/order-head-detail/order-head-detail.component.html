@@ -14,7 +14,8 @@
             <a>Wybierz danie z menu:</a>
             <p>
               <select [(ngModel)]="selectedMainFoodItem" (change)="setSideFoodGroups(selectedMainFoodItem)">
-                <option *ngFor="let mainFoodItem of mainFoodItems" [ngValue]="mainFoodItem">{{mainFoodItem.name}}</option>
+                <option *ngFor="let mainFoodItem of mainFoodItems" [ngValue]="mainFoodItem">{{mainFoodItem.name}}
+                </option>
               </select>
             </p>
             <p *ngIf="selectedMainFoodItem">
@@ -24,11 +25,12 @@
             </p>
             <div *ngIf="selectedMainFoodItem && sideFoodGroups">
               <p *ngFor="let sideFoodGroup of sideFoodGroups; let i = index">{{sideFoodGroup.name}}
-              <select [(ngModel)]="selectedSides[i]">
-                <option *ngFor="let sideFoodItem of sideFoodGroup.foodItems" [ngValue]="sideFoodItem">{{sideFoodItem.name}}</option>
-              </select>
-            </p>
-          </div>
+                <select [(ngModel)]="selectedSides[i]">
+                  <option *ngFor="let sideFoodItem of sideFoodGroup.foodItems" [ngValue]="sideFoodItem">
+                    {{sideFoodItem.name}}</option>
+                </select>
+              </p>
+            </div>
           </div>
 
           <div *ngIf="orderPack.menuSource===2">
@@ -39,37 +41,21 @@
           </div>
 
           <div *ngIf="orderPack.menuSource===3">
-              <a>Wybierz danie z menu:</a>
-              <p>
-                <select [(ngModel)]="selectedOrderMenu">
-                  <option *ngFor="let orderMenu of orderPack.orderMenus" [ngValue]="orderMenu">{{orderMenu.name}}</option>
-                </select>
-              </p>
-              <p *ngIf="selectedOrderMenu">
-                <label>{{selectedOrderMenu.comment}}</label>
-                <br>
-                <label><i class="fas fa-dollar-sign"></i> {{selectedOrderMenu.price}}</label>
-              </p>
+            <a>Wybierz danie z menu:</a>
+            <p>
+              <select [(ngModel)]="selectedOrderMenu">
+                <option *ngFor="let orderMenu of orderPack.orderMenus" [ngValue]="orderMenu">{{orderMenu.name}}</option>
+              </select>
+            </p>
+            <p *ngIf="selectedOrderMenu">
+              <label>{{selectedOrderMenu.comment}}</label>
+              <br>
+              <label><i class="fas fa-dollar-sign"></i> {{selectedOrderMenu.price}}</label>
+            </p>
           </div>
 
           <button class="menubtn" (click)="addOrderItem()">Dodaj danie</button>
         </div>
-        
-        <div *ngIf="orderItems?.length > 0" class="contain-card">
-            <a>Zamówione:</a>
-            <div class="vertical-menu">
-                <div *ngFor="let order of orderItems">
-                  <p>
-                  <span (click)="removeOrder(order)" class="close"><i class="fas fa-backspace"></i></span>
-                  <a> {{order.ownOrder}} </a>
-                  <a *ngFor="let side of getSides(order)">+ {{side.name}} </a>
-                </p>
-                </div>
-              </div>
-        </div>
-
-        <button class="savebtn" (click)="onSubmit()">Wyślij zamówienie</button>
-        <button class="cancelbtn" (click)="onSubmit()">Anuluj zamówienie</button>
       </div>
     </div>
 
@@ -77,17 +63,32 @@
       <div class="contain">
         <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
         <table>
-          <tr *ngFor="let orderItem of orderItems">
-            <td>
-              <p>{{orderItem.ownOrder}}<a *ngFor="let side of getSides(orderItem)">+ {{side.name}} </a></p>
+          <tr *ngFor="let orderItem of orderHead.orderItems">
+            <td>              
+              <p>
+                <span (click)="removeOrder(order)" class="close"><i class="fas fa-backspace"></i></span>
+                {{orderItem.ownOrder}}<a *ngFor="let side of getSides(orderItem)">+ {{side.ownOrder}} </a>
+              </p>
             </td>
             <td><span class="price"> ${{orderItem.amount}}</span></td>
           </tr>
         </table>
         <hr>
         <p>Razem <span class="price" style="color:black"><b>${{getTotal()}}</b></span></p>
+        <div *ngFor="let choice of payments">
+            <input type="radio" class="radio" [ngClass]="{'invalid': !vPay}"
+                   [(ngModel)]="orderHead.payment"
+                   [checked]="orderHead.payment==choice"
+                   [value]="choice" />
+            {{Payment[choice]}}
+        </div>
+        <p>Komentarz do zamówienia:</p>
+        <textarea rows="2" cols="10" [(ngModel)]="orderHead.comment" name="comment"></textarea>
       </div>
-    </div>
+    </div>   
+
+    <button class="savebtn" (click)="onSubmit()">Wyślij zamówienie</button>
+    <button class="cancelbtn" (click)="onSubmit()">Anuluj zamówienie</button>
 
   </div>
 

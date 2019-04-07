@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { OrderPack } from '../models/order-pack';
@@ -16,11 +16,14 @@ export class OrderPackService {
     'Authorization': 'Basic ' + sessionStorage.getItem('token')
   });
 
-  private options = { headers: this.headers };
+  private params: HttpParams = new HttpParams();
+
+  private options = { headers: this.headers, params: this.params };
 
   constructor(private http: HttpClient) { }
 
-  getOrderPacks(): Observable<OrderPack[]> {
+  getOrderPacks(type: string): Observable<OrderPack[]> {
+    this.options.params.set('is',type);
     return this.http.get<OrderPack[]>(this.orderPacksUrl, this.options);
   }
 

@@ -8,6 +8,7 @@ export class OrderPack {
     comment: string;
     menuSource: number;
     //timeLimit: string[];
+    created: Date;
     orderStatusId: number;
     orderStatusName: string;
     orderMenus: OrderMenu[];
