@@ -8,7 +8,7 @@
 </div>
 <div class="card">
   <div class="container" action="action_page.php">
-    <p><input type="text" id="newRestaurant" name="newRestaurant" placeholder="Nowa restauracja.."></p>
-  <p><button ><i class="fas fa-plus"></i> Dodaj</button></p>
+    <p><input [(ngModel)]="newRestaurant" type="text" id="newRestaurant" name="newRestaurant" placeholder="Nowa restauracja.."></p>
+    <p (click)="addRestaurant(newRestaurant)" ><button><i class="fas fa-plus"></i> Dodaj</button></p>
   </div>
 </div>

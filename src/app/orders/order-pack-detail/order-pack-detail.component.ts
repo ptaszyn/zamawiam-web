@@ -5,6 +5,7 @@ import { OrderPack } from '../shared/models/order-pack';
 import { OrderPackService } from '../shared/services/order-pack.service';
 import { OrderHeadService } from '../shared/services/order-head.service';
 import { OrderHead } from '../shared/models/order-head';
+import { Payment } from '../shared/models/payment';
 
 @Component({
   selector: 'app-order-pack-detail',
@@ -15,6 +16,8 @@ export class OrderPackDetailComponent implements OnInit {
 
   @Input() orderPack: OrderPack = new OrderPack();
   urlNewOrder: string = window.location.href + '/order';
+  
+  Payment = Payment;
 
   orderHeads: OrderHead[];
 

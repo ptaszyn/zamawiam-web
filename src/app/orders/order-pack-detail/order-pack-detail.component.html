@@ -23,12 +23,14 @@
           class="fas fa-angle-double-right"></i> Też zamów</button>
 
       <div class="contain-card" *ngFor="let orderHead of orderHeads">
-        <h3>{{orderHead.userId}}</h3>
+        <h3>{{orderHead.userName}}</h3>
         <div *ngFor="let orderItem of orderHead.orderItems">
           <p>{{orderItem.ownOrder}} za {{orderItem.amount}}</p>
         </div>
-        <p>{{orderHead.comment}}</p>
-        <label><input type="checkbox"> Zapłacone</label>
+        <p *ngIf="orderHead.comment">{{orderHead.comment}}</p>
+        <label>Do zapłaty:<input type="number" size=6 value="{{orderHead.amount}}"></label>
+        <label style="white-space: nowrap;"> {{Payment[orderHead.payment]}} </label>
+        <label style="white-space: nowrap;"><input type="checkbox"> Zapłacone</label>
       </div>
     </div>
 

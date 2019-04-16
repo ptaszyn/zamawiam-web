@@ -22,7 +22,7 @@ export class OrderHeadDetailComponent implements OnInit {
   @Input() orderHead: OrderHead = new OrderHead();
   orderPack: OrderPack = new OrderPack();
   restaurant: Restaurant = new Restaurant();
-  
+
   private Payment = Payment;
   payments: any;
 
@@ -30,7 +30,7 @@ export class OrderHeadDetailComponent implements OnInit {
 
   selectedMainFoodItem: any;
   selectedOrderMenu: any;
-  
+
   foodGroups: FoodGroup[];
   mainFoodItems: FoodItem[];
   sideFoodGroups: FoodGroup[];
@@ -38,7 +38,7 @@ export class OrderHeadDetailComponent implements OnInit {
   selectedSides: FoodItem[] = [];
 
   idPack: number;
-   
+
   //validation
   vPay = true;
 
@@ -69,7 +69,7 @@ export class OrderHeadDetailComponent implements OnInit {
   }
 
   getOrderHead(): void {
-    let idHead = this.route.snapshot.paramMap.get('id');
+    const idHead = this.route.snapshot.paramMap.get('id');
     if (idHead) {
       const id = +idHead;
       this.orderHeadService.getOrderHead(this.idPack, id).subscribe(orderHead => this.orderHead = orderHead);
@@ -102,7 +102,7 @@ export class OrderHeadDetailComponent implements OnInit {
     if (this.orderPack.menuSource === 1) {
       this.newOrderItem = this.convertFoodItemToOrderItem(this.selectedMainFoodItem);
       if (this.selectedSides) {
-        for (let side of this.selectedSides) {
+        for (const side of this.selectedSides) {
           if (this.newOrderItem.sideOrderItems) {
             this.newOrderItem.sideOrderItems.push(this.convertFoodItemToOrderItem(side));
           } else {
@@ -130,18 +130,18 @@ export class OrderHeadDetailComponent implements OnInit {
     if (foodItem == null) {
       return;
     }
-    let orderItem: OrderItem = new OrderItem();
+    const orderItem: OrderItem = new OrderItem();
     orderItem.foodItemId = foodItem.id;
     orderItem.ownOrder = foodItem.name;
     orderItem.amount = foodItem.price;
     return orderItem;
   }
 
-  private convertOrderMenuToOrderItem(orderMenu: OrderMenu): OrderItem {    
+  private convertOrderMenuToOrderItem(orderMenu: OrderMenu): OrderItem {
     if (orderMenu == null) {
       return;
     }
-    let orderItem: OrderItem = new OrderItem();
+    const orderItem: OrderItem = new OrderItem();
     orderItem.orderMenuId = orderMenu.id;
     orderItem.ownOrder = orderMenu.name;
     orderItem.amount = orderMenu.price;
@@ -153,7 +153,7 @@ export class OrderHeadDetailComponent implements OnInit {
   */ 
 
   removeOrder(orderItem: OrderItem): void {
-    let index = this.orderHead.orderItems.indexOf(orderItem);
+    const index = this.orderHead.orderItems.indexOf(orderItem);
     this.orderHead.orderItems.splice(index, 1);
   }
 
@@ -162,7 +162,7 @@ export class OrderHeadDetailComponent implements OnInit {
   */ 
 
   getSides(orderItem: OrderItem): OrderItem[] {
-    let index = this.orderHead.orderItems.indexOf(orderItem);
+    const index = this.orderHead.orderItems.indexOf(orderItem);
     return this.orderHead.orderItems[index].sideOrderItems;
   }
 
@@ -181,7 +181,7 @@ export class OrderHeadDetailComponent implements OnInit {
   */
   validate(): boolean {
     this.vPay = false;
-    if (this.orderHead.payment) this.vPay = true;
+    if (this.orderHead.payment) {this.vPay = true; }
     return this.vPay;
   }
 
@@ -190,7 +190,8 @@ export class OrderHeadDetailComponent implements OnInit {
   */ 
 
   onSubmit() {
-    if(!this.validate()) return;
+    if(!this.validate()) {return; }
+    this.orderHead.amount = +this.getTotal();
     this.orderHeadService.addOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
       this.orderHead = orderHead;
       this.router.navigate(['/orderpacks', this.orderHead.orderPackId, 'order', this.orderHead.id]);
@@ -202,9 +203,9 @@ export class OrderHeadDetailComponent implements OnInit {
   */ 
 
   setMainFoodItems() {
-    for (let group of this.foodGroups) {
+    for (const group of this.foodGroups) {
       if (group.isMain) {
-        for (let item of group.foodItems) {
+        for (const item of group.foodItems) {
           if (this.mainFoodItems) {
             this.mainFoodItems.push(item);
           } else {
@@ -216,8 +217,8 @@ export class OrderHeadDetailComponent implements OnInit {
   }
 
   setSideFoodGroups(foodItem: any): boolean {
-    if (foodItem == null) return false;
-    for (let group of this.foodGroups) {
+    if (foodItem == null) {return false;}
+    for (const group of this.foodGroups) {
       if (group.id === foodItem.foodGroupId) {
         this.sideFoodGroups = group.sideFoodGroups;
         return true;

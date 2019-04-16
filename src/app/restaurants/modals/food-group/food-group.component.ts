@@ -12,8 +12,8 @@ import { RestaurantMenuComponent } from '../../restaurant-menu/restaurant-menu.c
 export class FoodGroupComponent implements OnInit {
 
   @Input() foodGroup: FoodGroup;
-  sideFoodGroups: FoodGroup[];
-  selectedSideFoodGroups: number[];
+  sideFoodGroups: FoodGroup[]; // list of food group which are not main
+  selectedSideFoodGroups: number[]; // list of selected on window food group which are not main
 
   constructor(
     private restaurantService: RestaurantService,
@@ -27,52 +27,57 @@ export class FoodGroupComponent implements OnInit {
   addFoodGroup(foodGroup: FoodGroup): void {
     this.setSideFoodGroups();
     this.restaurantService.addFoodGroup(foodGroup)
-      .subscribe(foodGroup => {
-        this.restaurantMenu.foodGroups.push(foodGroup);
+      .subscribe(savedFoodGroup => {
+        this.restaurantMenu.foodGroups.push(savedFoodGroup);
         this.restaurantMenu.getFoodGroups();
       });
   }
 
   putFoodGroup(foodGroup: FoodGroup): void {
     this.setSideFoodGroups();
-    let index = this.restaurantMenu.foodGroups.indexOf(foodGroup);
+    const index = this.restaurantMenu.foodGroups.indexOf(foodGroup);
     this.restaurantService.putFoodGroup(foodGroup)
-      .subscribe(foodGroup => {
-        this.restaurantMenu.foodGroups[index] = foodGroup;
+      .subscribe(savedFoodGroup => {
+        this.restaurantMenu.foodGroups[index] = savedFoodGroup;
         this.restaurantMenu.getFoodGroups();
       });
   }
 
   getSideFoodGroups(): void {
+    this.selectedSideFoodGroups = [];
     if (this.restaurantMenu.foodGroups) {
       this.sideFoodGroups = this.restaurantMenu.foodGroups.filter(foodGroup => (!foodGroup.isMain));
     }
-    // select if food group has sides
+    // select if food group has sides (no-main food groups)
     if (this.foodGroup.sideFoodGroups) {
-      for (let side of this.foodGroup.sideFoodGroups) {
-        if (this.selectedSideFoodGroups) this.selectedSideFoodGroups.push(side.id);
-        else this.selectedSideFoodGroups = [side.id];
+      for (const side of this.foodGroup.sideFoodGroups) {
+        this.selectedSideFoodGroups.push(side.id);
       }
     }
   }
 
-  changeSide(side: FoodGroup){
-    let index = this.selectedSideFoodGroups.indexOf(side.id);
-    if(index>=0){
+  /*
+  * action select/unselect sides (no-main food group)
+  */
+  changeSide(side: FoodGroup) {
+    const index = this.selectedSideFoodGroups.indexOf(side.id);
+    if (index >= 0) {
       this.selectedSideFoodGroups.splice(index, 1);
     } else {
-      if (this.selectedSideFoodGroups) this.selectedSideFoodGroups.push(side.id);
-      else this.selectedSideFoodGroups = [side.id];
+      this.selectedSideFoodGroups.push(side.id);
     }
   }
-
+ 
+  /*
+  * add selected side groups to main food group
+  */
   setSideFoodGroups() {
-    this.foodGroup.sideFoodGroups=[];
-    for (let side of this.sideFoodGroups) {
-      let index = this.selectedSideFoodGroups.indexOf(side.id);
-      if(index>=0){
-        if (this.foodGroup.sideFoodGroups) this.foodGroup.sideFoodGroups.push(side);
-        else this.foodGroup.sideFoodGroups = [side];
+    this.foodGroup.sideFoodGroups = [];
+    if (!this.sideFoodGroups) {return; }
+    for (const side of this.sideFoodGroups) {
+      const index = this.selectedSideFoodGroups.indexOf(side.id);
+      if (index >= 0) {
+        this.foodGroup.sideFoodGroups.push(side);
       }
     }
   }
@@ -80,7 +85,7 @@ export class FoodGroupComponent implements OnInit {
   // Display functions
 
   noneModalFg(idModal: number): void {
-    let idElement = 'fg' + (idModal ? idModal.toString() : '');
+    const idElement = 'fg' + (idModal ? idModal.toString() : '');
     document.getElementById(idElement).style.display = 'none';
   }
 

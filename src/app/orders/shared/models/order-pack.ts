@@ -7,7 +7,7 @@ export class OrderPack {
     restaurantName: string;
     comment: string;
     menuSource: number;
-    //timeLimit: string[];
+    timeLimit: Date;
     created: Date;
     orderStatusId: number;
     orderStatusName: string;

@@ -9,6 +9,10 @@ input {
   border: none;
 }
 
+input[type="number"] {
+  width:100px;
+}
+
 button {
   background-color: #333;
   color: #ffffff;
