@@ -28,7 +28,7 @@
           <p>{{orderItem.ownOrder}} za {{orderItem.amount}}</p>
         </div>
         <p *ngIf="orderHead.comment">{{orderHead.comment}}</p>
-        <label>Do zapłaty:<input type="number" size=6 value="{{orderHead.amount}}"></label>
+        <label>Do zapłaty:<input type="number" step="0.01" size=6 value="{{orderHead.amount}}"></label>
         <label style="white-space: nowrap;"> {{Payment[orderHead.payment]}} </label>
         <label style="white-space: nowrap;"><input type="checkbox"> Zapłacone</label>
       </div>

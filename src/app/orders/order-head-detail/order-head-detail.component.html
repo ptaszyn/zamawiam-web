@@ -70,7 +70,7 @@
                 {{orderItem.ownOrder}}<a *ngFor="let side of getSides(orderItem)">+ {{side.ownOrder}} </a>
               </p>
             </td>
-            <td><span class="price"> ${{orderItem.amount}}</span></td>
+            <td><span class="price"> ${{getOrderItemAmount(orderItem)}}</span></td>
           </tr>
         </table>
         <hr>

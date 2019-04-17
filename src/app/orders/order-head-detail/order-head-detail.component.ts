@@ -166,14 +166,22 @@ export class OrderHeadDetailComponent implements OnInit {
     return this.orderHead.orderItems[index].sideOrderItems;
   }
 
+  getOrderItemAmount(orderItem: OrderItem): string {
+    return (orderItem.amount + this.sumOrderItems(orderItem.sideOrderItems)).toFixed(2);
+  }
+
   getTotal(): string {
+    return this.sumOrderItems(this.orderHead.orderItems).toFixed(2);
+  }
+
+  private sumOrderItems(orderItems: OrderItem[]): number {
     let total: number = 0;
-    if (this.orderHead.orderItems != null) {
-      this.orderHead.orderItems.forEach(item => {
-        total += item.amount;
+    if (orderItems != null) {
+      orderItems.forEach(item => {
+        total += (item.amount + this.sumOrderItems(item.sideOrderItems));
       });
     }
-    return total.toFixed(2);
+    return total;
   }
 
   /*
