@@ -1,7 +1,6 @@
 <div class="container">
 
   <div class="barcontainer">
-
     <h1>Zamówienie z {{orderPack.restaurantName}}</h1>
     <ul class="progressbar">
       <li [ngClass]="{'active': orderPack.orderStatusId > 0}" (click)="setStatus(1)">Otwarte</li>
@@ -15,22 +14,26 @@
   <div class="row">
 
     <div class="col-70">
-
+      <h3>Limit czasu:</h3>
+      <input type="time" [(ngModel)]="orderPack.timeLimit" >
       <h3>Link do składania zamówień:</h3>
       <input type="url" value="{{urlNewOrder}}" readonly #urlToNewOrder>
       <button (click)="copy(urlToNewOrder)"><i class="far fa-copy"></i> Kopiuj</button>
       <button class="orderbtn" [routerLink]="['/orderpacks/',orderPack.id,'order']"><i
           class="fas fa-angle-double-right"></i> Też zamów</button>
-
       <div class="contain-card" *ngFor="let orderHead of orderHeads">
         <h3>{{orderHead.userName}}</h3>
         <div *ngFor="let orderItem of orderHead.orderItems">
-          <p>{{orderItem.ownOrder}} za {{orderItem.amount}}</p>
+          <p>{{orderItem.ownOrder}}<a *ngFor="let side of orderItem.sideOrderItems"> + {{side.ownOrder}} </a> za
+            {{getOrderItemAmount(orderItem)}}</p>
         </div>
         <p *ngIf="orderHead.comment">{{orderHead.comment}}</p>
         <label>Do zapłaty:<input type="number" step="0.01" size=6 value="{{orderHead.amount}}"></label>
         <label style="white-space: nowrap;"> {{Payment[orderHead.payment]}} </label>
         <label style="white-space: nowrap;"><input type="checkbox"> Zapłacone</label>
+
+        <p>Komentarz do zamówienia:</p>
+        <textarea rows="2" cols="30" [(ngModel)]="orderHead.message" name="message"></textarea>
       </div>
     </div>
 
@@ -38,40 +41,16 @@
       <div class="contain">
         <h4>Zamówienia <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i></span></h4>
         <table>
-          <tr>
-            <td><a href="#">Butter Chicken</a></td>
-            <td>1</td>
-            <td><span class="price"> $15</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Chicken Tikka Masala</a></td>
-            <td>1</td>
-            <td><span class="price"> $5</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Chicken Palak</a></td>
-            <td>1</td>
-            <td><span class="price"> $8</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">Kadai Vegetable</a></td>
-            <td>1</td>
-            <td><span class="price"> $2</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">+ ryż</a></td>
-            <td>2</td>
-            <td><span class="price"> $2</span></td>
-          </tr>
-          <tr>
-            <td><a href="#">+ chlebek</a></td>
-            <td>2</td>
-            <td><span class="price"> $2</span></td>
-          </tr>
+          <ng-container *ngFor="let orderHead of orderHeads">
+            <tr *ngFor="let orderItem of orderHead.orderItems">
+              <td>{{orderItem.ownOrder}}<a *ngFor="let side of orderItem.sideOrderItems"> + {{side.ownOrder}}</a></td>
+              <td><span class="price"> ${{getOrderItemAmount(orderItem)}}</span></td>
+            </tr>
+          </ng-container>
         </table>
         <hr>
-        <p>Razem <span class="price" style="color:black"><b>$30</b></span></p>
-        <p>Sztuk <span class="price" style="color:black"><b>5</b></span></p>
+        <p>Razem <span class="price" style="color:black"><b>${{getTotal()[0]}}</b></span></p>
+        <p>Sztuk <span class="price" style="color:black"><b>{{getTotal()[1]}}</b></span></p>
       </div>
     </div>
 

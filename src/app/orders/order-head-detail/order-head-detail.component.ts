@@ -200,10 +200,17 @@ export class OrderHeadDetailComponent implements OnInit {
   onSubmit() {
     if(!this.validate()) {return; }
     this.orderHead.amount = +this.getTotal();
-    this.orderHeadService.addOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
-      this.orderHead = orderHead;
-      this.router.navigate(['/orderpacks', this.orderHead.orderPackId, 'order', this.orderHead.id]);
-    }, (err) => { console.log(err); });
+    if(this.orderHead.id) {
+      this.orderHeadService.putOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
+        this.orderHead = orderHead;
+        this.router.navigate(['/orderpacks', this.orderHead.orderPackId, 'order', this.orderHead.id]);
+      }, (err) => { console.log(err); });
+    } else {
+      this.orderHeadService.addOrderHead(this.idPack, this.orderHead).subscribe(orderHead => {
+        this.orderHead = orderHead;
+        this.router.navigate(['/orderpacks', this.orderHead.orderPackId, 'order', this.orderHead.id]);
+      }, (err) => { console.log(err); });
+    }
   }
 
   /*

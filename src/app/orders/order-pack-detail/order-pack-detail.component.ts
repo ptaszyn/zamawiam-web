@@ -6,6 +6,7 @@ import { OrderPackService } from '../shared/services/order-pack.service';
 import { OrderHeadService } from '../shared/services/order-head.service';
 import { OrderHead } from '../shared/models/order-head';
 import { Payment } from '../shared/models/payment';
+import { OrderItem } from '../shared/models/order-item';
 
 @Component({
   selector: 'app-order-pack-detail',
@@ -16,10 +17,10 @@ export class OrderPackDetailComponent implements OnInit {
 
   @Input() orderPack: OrderPack = new OrderPack();
   urlNewOrder: string = window.location.href + '/order';
-  
+
   Payment = Payment;
 
-  orderHeads: OrderHead[];
+  orderHeads: OrderHead[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -33,7 +34,7 @@ export class OrderPackDetailComponent implements OnInit {
 
   /*
   * load data
-  */ 
+  */
 
   async loadData() {
     await this.getOrderPack();
@@ -59,6 +60,32 @@ export class OrderPackDetailComponent implements OnInit {
   setStatus(status: number) {
     this.orderPack.orderStatusId = status;
     this.orderPackService.putOrderPack(this.orderPack).subscribe(orderPack => this.orderPack = orderPack);
+  }
+
+  getOrderItemAmount(orderItem: OrderItem): string {
+    return (orderItem.amount + this.sumOrderItems(orderItem.sideOrderItems)).toFixed(2);
+  }
+
+  getTotal(): string[] {
+    let total: number = 0;
+    let count: number = 0;
+    if (this.orderHeads != null) {
+      this.orderHeads.forEach(order => {
+        total += this.sumOrderItems(order.orderItems);
+        count += order.orderItems.length;
+      });
+    }
+    return [total.toFixed(2), count.toString()];
+  }
+
+  private sumOrderItems(orderItems: OrderItem[]): number {
+    let total: number = 0;
+    if (orderItems != null) {
+      orderItems.forEach(item => {
+        total += (item.amount + this.sumOrderItems(item.sideOrderItems));
+      });
+    }
+    return total;
   }
 
 }
