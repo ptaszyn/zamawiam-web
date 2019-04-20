@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
       if (notification.title.length > 0) {
         this.isErrorResponse = true;
         this.snacktext = notification.title;
-        setTimeout(()=>{this.isErrorResponse = false}, 5000);
+        setTimeout(() => {this.isErrorResponse = false; }, 5000);
       }
     });
   }
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     }
     return null;
   }
- 
+
   signOut() {
     window.sessionStorage.clear();
     window.location.reload();
@@ -44,11 +44,11 @@ export class AppComponent implements OnInit {
   }
 
   myTopnavClick(): void {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "navbar") {
-      x.className += " responsive";
+    const x = document.getElementById('myTopnav');
+    if (x.className === 'navbar') {
+      x.className += ' responsive';
     } else {
-      x.className = "navbar";
+      x.className = 'navbar';
     }
   }
 

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { OrderPackService } from '../shared/services/order-pack.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { OrderPack } from '../shared/models/order-pack';
+import { OrderHeadService } from '../shared/services/order-head.service';
 
 @Component({
   selector: 'app-order-pack-list',
@@ -12,25 +13,36 @@ import { OrderPack } from '../shared/models/order-pack';
 export class OrderPackListComponent implements OnInit {
 
   orderPacks: OrderPack[];
-  is: string;
+  isOwner: string;
 
   constructor(
     private orderPackService: OrderPackService,
+    private orderHeadService: OrderHeadService,
     private activatedRoute: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.is = params['is'];
-    });
-    this.orderPackService.getOrderPacks(this.is).subscribe(orderPacks => this.orderPacks = orderPacks.slice().reverse());
+    /*this.activatedRoute.queryParams.subscribe(params => {
+      this.isOwner = params['isOwner'];
+    });*/
+    if (this.router.url === '/orderpacks/my') {this.isOwner = 'true'; }
+    this.orderPackService.getOrderPacks(this.isOwner).subscribe(orderPacks => this.orderPacks = orderPacks.slice().reverse());
   }
 
-  goTo(id: number){
-    if(this.is === 'my'){
-      this.router.navigate(['/orderpacks/', id]);
+  goTo(orderPackId: number) {
+    if (this.isOwner === 'true') {
+      this.router.navigate(['/orderpacks/', orderPackId]);
     } else {
-      this.router.navigate(['/orderpacks/' + id + '/order']);
+      this.goToOrderHead(orderPackId);
+    }
+  }
+
+  async goToOrderHead(orderPackId: number) {
+    const orderHeads = await this.orderHeadService.getOrderHeads(orderPackId, 'true').toPromise();
+    if (orderHeads && (orderHeads.length > 0)) {
+      this.router.navigate(['/orderpacks/' + orderPackId + '/order/' + orderHeads[0].id]);
+    } else {
+      this.router.navigate(['/orderpacks/' + orderPackId + '/order']);
     }
   }
 

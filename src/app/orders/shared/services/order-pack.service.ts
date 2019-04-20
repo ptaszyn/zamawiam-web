@@ -16,15 +16,22 @@ export class OrderPackService {
     'Authorization': 'Basic ' + sessionStorage.getItem('token')
   });
 
-  private params: HttpParams = new HttpParams();
 
-  private options = { headers: this.headers, params: this.params };
+  //private params: HttpParams = new HttpParams();
+
+  //private options = { headers: this.headers, params: this.params };
 
   constructor(private http: HttpClient) { }
 
-  getOrderPacks(type: string): Observable<OrderPack[]> {
-    this.options.params.set('is',type);
-    return this.http.get<OrderPack[]>(this.orderPacksUrl, this.options);
+  getOrderPacks(isOwner: string): Observable<OrderPack[]> {
+    //this.options.params.set('is',type);
+    //this.options.params.set('isOwner', isOwner);
+    if (!isOwner) {isOwner = 'false'; }
+    return this.http.get<OrderPack[]>(this.orderPacksUrl, {
+      params: {
+        isOwner: isOwner
+      }
+    });
   }
 
   getOrderPack(id: number): Observable<OrderPack> {

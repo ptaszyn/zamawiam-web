@@ -48,7 +48,7 @@ export class OrderPackDetailComponent implements OnInit {
   }
 
   async getOrderHeads() {
-    const orderHeads = await this.orderHeadService.getOrderHeads(this.orderPack.id).toPromise();
+    const orderHeads = await this.orderHeadService.getOrderHeads(this.orderPack.id, 'false').toPromise();
     this.orderHeads = orderHeads;
   }
 

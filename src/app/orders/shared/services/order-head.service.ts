@@ -20,8 +20,13 @@ export class OrderHeadService {
 
   constructor(private http: HttpClient) { }
 
-  getOrderHeads(idPack: number): Observable<OrderHead[]> {
-    return this.http.get<OrderHead[]>(this.getPackUrl(idPack), this.options);
+  getOrderHeads(idPack: number, isOwner: string): Observable<OrderHead[]> {
+    if (!isOwner) {isOwner = 'false'; }
+    return this.http.get<OrderHead[]>(this.getPackUrl(idPack), {
+      params: {
+        isOwner: isOwner
+      }
+    });
   }
 
   getOrderHead(idPack: number, id: number): Observable<OrderHead> {

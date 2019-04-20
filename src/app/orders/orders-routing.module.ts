@@ -11,6 +11,7 @@ const routes: Routes = [
     path: '',
     children: [
       { path: 'new', component: OrderPackNewComponent },
+      { path: 'my', component: OrderPackListComponent },
       { path: ':id', component: OrderPackDetailComponent },
       { path: ':idPack/order/:id', component: OrderHeadDetailComponent },
       { path: ':idPack/order', component: OrderHeadDetailComponent },
