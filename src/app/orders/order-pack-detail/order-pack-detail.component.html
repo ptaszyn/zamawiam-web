@@ -14,8 +14,6 @@
   <div class="row">
 
     <div class="col-70">
-      <h3>Limit czasu:</h3>
-      <input type="time" [(ngModel)]="orderPack.timeLimit" >
       <h3>Link do składania zamówień:</h3>
       <input type="url" value="{{urlNewOrder}}" readonly #urlToNewOrder>
       <button (click)="copy(urlToNewOrder)"><i class="far fa-copy"></i> Kopiuj</button>

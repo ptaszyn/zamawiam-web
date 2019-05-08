@@ -1,6 +1,6 @@
 import { OrderMenu } from './order-menu';
 
-export class OrderPack {
+export class OrderPack{
     id: number;
     userId: number;
     restaurantId: number;
@@ -8,8 +8,9 @@ export class OrderPack {
     comment: string;
     menuSource: number;
     timeLimit: Date;
-    created: Date;
     orderStatusId: number;
     orderStatusName: string;
+    statusChanged: Date;
+    created: Date;
     orderMenus: OrderMenu[];
 }

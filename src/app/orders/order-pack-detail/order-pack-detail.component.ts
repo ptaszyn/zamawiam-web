@@ -59,6 +59,9 @@ export class OrderPackDetailComponent implements OnInit {
 
   setStatus(status: number) {
     this.orderPack.orderStatusId = status;
+    this.orderPack.created = null;
+    this.orderPack.statusChanged = null;
+    this.orderPack.timeLimit = null;
     this.orderPackService.putOrderPack(this.orderPack).subscribe(orderPack => this.orderPack = orderPack);
   }
 
